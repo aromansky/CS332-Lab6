@@ -52,6 +52,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Geometry\Core\Edge.cs" />
+    <Compile Include="Geometry\Surfaces\Face.cs" />
+    <Compile Include="Geometry\Core\Point.cs" />
+    <Compile Include="Geometry\Solids\Polyhedron.cs" />
+    <Compile Include="Geometry\Transform\Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -76,5 +81,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
