@@ -86,9 +86,9 @@ namespace CS332_Lab6.Geometry.Transform
         /// <summary>
         /// Создаёт матрицу масштабирования
         /// </summary>
-        /// <param name="scaleX">Масштаб по оси X (от 0 до 1)</param>
-        /// <param name="scaleY">Масштаб по оси Y(от 0 до 1)</param>
-        /// <param name="scaleZ">Масштаб по оси Z(от 0 до 1)</param>
+        /// <param name="scaleX">Масштаб по оси X (от -1 до 1)</param>
+        /// <param name="scaleY">Масштаб по оси Y(от -1 до 1)</param>
+        /// <param name="scaleZ">Масштаб по оси Z(от -1 до 1)</param>
         /// <returns>Матрица масштабирования 4x4</returns>
         private static Matrix CreateScaleMatrix(float scaleX = 1, float scaleY = 1, float scaleZ = 1)
         {
