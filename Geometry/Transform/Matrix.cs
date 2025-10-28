@@ -29,6 +29,18 @@ namespace CS332_Lab6.Geometry.Transform
             matrix = new float[this.rows, this.cols];
         }
 
+        public Matrix(float[,] matrix)
+        {
+            this.rows = (uint)matrix.GetLength(0);
+            this.cols = (uint)matrix.GetLength(1);
+
+            matrix = new float[this.rows, this.cols];
+
+            for(uint i = 0; i < this.rows; i++)
+                for (uint j = 0; j < this.cols; j++)
+                    this.matrix[i, j] = matrix[i, j];
+        }
+
         public float this[uint row, uint col] 
         {
             get => matrix[row, col];
