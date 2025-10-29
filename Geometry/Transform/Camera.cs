@@ -109,8 +109,6 @@ namespace CS332_Lab6.Geometry.Transform
         private PointF ProjectAxonometric(Point3D p, float angleXdeg, float angleYdeg)
         {
             var (px, py, pz) = p.GetCoords();
-            var (cx, cy, cz) = Position.GetCoords();
-
             
 
             float ax = angleXdeg * (float)Math.PI / 180f;
