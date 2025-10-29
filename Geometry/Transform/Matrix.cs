@@ -31,10 +31,13 @@ namespace CS332_Lab6.Geometry.Transform
 
         public Matrix(float[,] matrix)
         {
+            if (matrix == null)
+                throw new ArgumentNullException(nameof(matrix));
+
             this.rows = (uint)matrix.GetLength(0);
             this.cols = (uint)matrix.GetLength(1);
 
-            matrix = new float[this.rows, this.cols];
+            this.matrix = new float[this.rows, this.cols];
 
             for(uint i = 0; i < this.rows; i++)
                 for (uint j = 0; j < this.cols; j++)
