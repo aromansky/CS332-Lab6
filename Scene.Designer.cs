@@ -194,6 +194,12 @@
             // lineStartXNumericUpDown
             // 
             this.lineStartXNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineStartXNumericUpDown.DecimalPlaces = 2;
+            this.lineStartXNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.lineStartXNumericUpDown.Location = new System.Drawing.Point(1599, 320);
             this.lineStartXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineStartXNumericUpDown.Maximum = new decimal(new int[] {
@@ -207,7 +213,7 @@
             0,
             -2147483648});
             this.lineStartXNumericUpDown.Name = "lineStartXNumericUpDown";
-            this.lineStartXNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineStartXNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineStartXNumericUpDown.TabIndex = 14;
             this.lineStartXNumericUpDown.ValueChanged += new System.EventHandler(this.lineStartNumericUpDown_ValueChanged);
             // 
@@ -225,7 +231,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1653, 322);
+            this.label5.Location = new System.Drawing.Point(1666, 322);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 16);
             this.label5.TabIndex = 17;
@@ -234,7 +240,13 @@
             // lineStartYNumericUpDown
             // 
             this.lineStartYNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineStartYNumericUpDown.Location = new System.Drawing.Point(1677, 320);
+            this.lineStartYNumericUpDown.DecimalPlaces = 2;
+            this.lineStartYNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineStartYNumericUpDown.Location = new System.Drawing.Point(1690, 320);
             this.lineStartYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineStartYNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -247,7 +259,7 @@
             0,
             -2147483648});
             this.lineStartYNumericUpDown.Name = "lineStartYNumericUpDown";
-            this.lineStartYNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineStartYNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineStartYNumericUpDown.TabIndex = 16;
             this.lineStartYNumericUpDown.ValueChanged += new System.EventHandler(this.lineStartNumericUpDown_ValueChanged);
             // 
@@ -255,7 +267,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1735, 322);
+            this.label6.Location = new System.Drawing.Point(1750, 322);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(18, 16);
             this.label6.TabIndex = 19;
@@ -264,7 +276,13 @@
             // lineStartZNumericUpDown
             // 
             this.lineStartZNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineStartZNumericUpDown.Location = new System.Drawing.Point(1759, 320);
+            this.lineStartZNumericUpDown.DecimalPlaces = 2;
+            this.lineStartZNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineStartZNumericUpDown.Location = new System.Drawing.Point(1774, 320);
             this.lineStartZNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineStartZNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -277,7 +295,7 @@
             0,
             -2147483648});
             this.lineStartZNumericUpDown.Name = "lineStartZNumericUpDown";
-            this.lineStartZNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineStartZNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineStartZNumericUpDown.TabIndex = 18;
             this.lineStartZNumericUpDown.ValueChanged += new System.EventHandler(this.lineStartNumericUpDown_ValueChanged);
             // 
@@ -285,7 +303,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(1735, 369);
+            this.label7.Location = new System.Drawing.Point(1750, 369);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(18, 16);
             this.label7.TabIndex = 25;
@@ -294,7 +312,13 @@
             // lineVecZNumericUpDown
             // 
             this.lineVecZNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineVecZNumericUpDown.Location = new System.Drawing.Point(1759, 367);
+            this.lineVecZNumericUpDown.DecimalPlaces = 2;
+            this.lineVecZNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineVecZNumericUpDown.Location = new System.Drawing.Point(1774, 367);
             this.lineVecZNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineVecZNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -307,7 +331,7 @@
             0,
             -2147483648});
             this.lineVecZNumericUpDown.Name = "lineVecZNumericUpDown";
-            this.lineVecZNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineVecZNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineVecZNumericUpDown.TabIndex = 24;
             this.lineVecZNumericUpDown.ValueChanged += new System.EventHandler(this.lineVecNumericUpDown_ValueChanged);
             // 
@@ -315,7 +339,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1653, 369);
+            this.label8.Location = new System.Drawing.Point(1666, 369);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 16);
             this.label8.TabIndex = 23;
@@ -324,7 +348,13 @@
             // lineVecYNumericUpDown
             // 
             this.lineVecYNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineVecYNumericUpDown.Location = new System.Drawing.Point(1677, 367);
+            this.lineVecYNumericUpDown.DecimalPlaces = 2;
+            this.lineVecYNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineVecYNumericUpDown.Location = new System.Drawing.Point(1690, 367);
             this.lineVecYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineVecYNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -337,7 +367,7 @@
             0,
             -2147483648});
             this.lineVecYNumericUpDown.Name = "lineVecYNumericUpDown";
-            this.lineVecYNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineVecYNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineVecYNumericUpDown.TabIndex = 22;
             this.lineVecYNumericUpDown.ValueChanged += new System.EventHandler(this.lineVecNumericUpDown_ValueChanged);
             // 
@@ -354,6 +384,12 @@
             // lineVecXNumericUpDown
             // 
             this.lineVecXNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineVecXNumericUpDown.DecimalPlaces = 2;
+            this.lineVecXNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.lineVecXNumericUpDown.Location = new System.Drawing.Point(1599, 367);
             this.lineVecXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineVecXNumericUpDown.Maximum = new decimal(new int[] {
@@ -367,7 +403,7 @@
             0,
             -2147483648});
             this.lineVecXNumericUpDown.Name = "lineVecXNumericUpDown";
-            this.lineVecXNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineVecXNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineVecXNumericUpDown.TabIndex = 20;
             this.lineVecXNumericUpDown.ValueChanged += new System.EventHandler(this.lineVecNumericUpDown_ValueChanged);
             // 
@@ -579,7 +615,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1739, 415);
+            this.label10.Location = new System.Drawing.Point(1754, 415);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(18, 16);
             this.label10.TabIndex = 40;
@@ -589,7 +625,7 @@
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(1657, 415);
+            this.label11.Location = new System.Drawing.Point(1670, 415);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(19, 16);
             this.label11.TabIndex = 39;
@@ -598,7 +634,13 @@
             // lineEndYNumericUpDown
             // 
             this.lineEndYNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineEndYNumericUpDown.Location = new System.Drawing.Point(1681, 412);
+            this.lineEndYNumericUpDown.DecimalPlaces = 2;
+            this.lineEndYNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineEndYNumericUpDown.Location = new System.Drawing.Point(1694, 412);
             this.lineEndYNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineEndYNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -611,7 +653,7 @@
             0,
             -2147483648});
             this.lineEndYNumericUpDown.Name = "lineEndYNumericUpDown";
-            this.lineEndYNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineEndYNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineEndYNumericUpDown.TabIndex = 38;
             this.lineEndYNumericUpDown.ValueChanged += new System.EventHandler(this.lineEndNumericUpDown_ValueChanged);
             // 
@@ -628,6 +670,12 @@
             // lineEndXNumericUpDown
             // 
             this.lineEndXNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineEndXNumericUpDown.DecimalPlaces = 2;
+            this.lineEndXNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.lineEndXNumericUpDown.Location = new System.Drawing.Point(1603, 412);
             this.lineEndXNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineEndXNumericUpDown.Maximum = new decimal(new int[] {
@@ -641,7 +689,7 @@
             0,
             -2147483648});
             this.lineEndXNumericUpDown.Name = "lineEndXNumericUpDown";
-            this.lineEndXNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineEndXNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineEndXNumericUpDown.TabIndex = 36;
             this.lineEndXNumericUpDown.ValueChanged += new System.EventHandler(this.lineEndNumericUpDown_ValueChanged);
             // 
@@ -658,7 +706,13 @@
             // lineEndZNumericUpDown
             // 
             this.lineEndZNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineEndZNumericUpDown.Location = new System.Drawing.Point(1767, 412);
+            this.lineEndZNumericUpDown.DecimalPlaces = 2;
+            this.lineEndZNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.lineEndZNumericUpDown.Location = new System.Drawing.Point(1782, 412);
             this.lineEndZNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineEndZNumericUpDown.Maximum = new decimal(new int[] {
             1000,
@@ -671,7 +725,7 @@
             0,
             -2147483648});
             this.lineEndZNumericUpDown.Name = "lineEndZNumericUpDown";
-            this.lineEndZNumericUpDown.Size = new System.Drawing.Size(45, 22);
+            this.lineEndZNumericUpDown.Size = new System.Drawing.Size(61, 22);
             this.lineEndZNumericUpDown.TabIndex = 41;
             this.lineEndZNumericUpDown.ValueChanged += new System.EventHandler(this.lineEndNumericUpDown_ValueChanged);
             // 
