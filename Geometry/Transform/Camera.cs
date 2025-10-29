@@ -107,7 +107,6 @@ namespace CS332_Lab6.Geometry.Transform
             return new PointF(screenX, screenY);
         }
 
-        // Использует матрицы из Transform для построения аксоно-проекции
         private PointF ProjectAxonometric(Point3D p, float angleXdeg, float angleYdeg)
         {
             var (px, py, pz) = p.GetCoords();
@@ -115,7 +114,6 @@ namespace CS332_Lab6.Geometry.Transform
 
             
 
-            // углы в радианах
             float ax = angleXdeg * (float)Math.PI / 180f;
             float ay = angleYdeg * (float)Math.PI / 180f;
 
@@ -123,7 +121,6 @@ namespace CS332_Lab6.Geometry.Transform
 
             rel = new Point3D(px, py, pz);
 
-            // Поворачиваем вокруг X и Y (имитируя "вид с камеры")
             Matrix rotX = Transform.CreateRotationAroundXMatrix(AxonometricAngleX * (float)Math.PI / 180);
             Matrix rotY = Transform.CreateRotationAroundYMatrix(AxonometricAngleY * (float)Math.PI / 180);
 
@@ -133,7 +130,6 @@ namespace CS332_Lab6.Geometry.Transform
             Matrix composite = rotY * rotX * factor;
             Point3D transformed = Transform.Apply(composite, rel);
 
-            // центрируем на экране
             float screenX = ScreenWidth / 2f + transformed.X * OrthoScale;
             float screenY = ScreenHeight / 2f - transformed.Y * OrthoScale;
 
@@ -145,7 +141,6 @@ namespace CS332_Lab6.Geometry.Transform
             var allProjected = new List<PointF>();
             var result = new List<List<PointF>>();
 
-            // 1. Сначала проектируем всё
             foreach (var face in poly.Faces)
             {
                 var projected = new List<PointF>();
@@ -158,7 +153,6 @@ namespace CS332_Lab6.Geometry.Transform
                 result.Add(projected);
             }
 
-            // 2. Центрируем по экрану (только для аксонометрических)
             if (Mode != ProjectionMode.Perspective)
             {
                 float minX = allProjected.Where(p => !float.IsNaN(p.X)).Min(p => p.X);
@@ -166,7 +160,6 @@ namespace CS332_Lab6.Geometry.Transform
                 float minY = allProjected.Where(p => !float.IsNaN(p.Y)).Min(p => p.Y);
                 float maxY = allProjected.Where(p => !float.IsNaN(p.Y)).Max(p => p.Y);
 
-                // Смещаем все точки
                 for (int i = 0; i < result.Count; i++)
                 {
                     for (int j = 0; j < result[i].Count; j++)
