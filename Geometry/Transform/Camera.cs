@@ -16,7 +16,6 @@ namespace CS332_Lab6.Geometry.Transform
     internal class Camera
     {
         public Point3D Position { get; set; }
-        public Point3D Target { get; set; } = new Point3D(0, 0, 0);
 
         public float FovDegrees { get; set; } = 60f;
         public int ScreenWidth { get; set; }
