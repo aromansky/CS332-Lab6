@@ -198,7 +198,7 @@ namespace CS332_Lab6.Geometry
                 new Point3D( invPhi, 0, -phi),  // 14
                 new Point3D(-invPhi, 0, -phi),  // 15
 
-                // 🩷 (±φ, ±1/φ, 0)
+                // (±φ, ±1/φ, 0)
                 new Point3D( phi,  invPhi, 0),  // 16
                 new Point3D(-phi,  invPhi, 0),  // 17
                 new Point3D( phi, -invPhi, 0),  // 18

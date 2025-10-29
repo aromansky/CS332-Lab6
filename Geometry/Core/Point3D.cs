@@ -9,9 +9,9 @@ namespace CS332_Lab6.Geometry
     internal class Point3D: ICloneable
     {
 
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
 
         public Point3D(float x, float y, float z)
         {
