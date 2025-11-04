@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geometry", "Geometry\Geomet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS332-Lab6", "CS332-Lab6\CS332-Lab6.csproj", "{F6FA6539-1901-2832-DB6A-44E08FD02286}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS332-Lab8", "CS332-Lab8\CS332-Lab8.csproj", "{0F28B1BD-3763-4FD1-B9AA-9FDE33C68073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS332-Lab9", "CS332-Lab9\CS332-Lab9.csproj", "{A7DB5EC2-F10B-4C53-BF7A-E6DCDA4518C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{F6FA6539-1901-2832-DB6A-44E08FD02286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6FA6539-1901-2832-DB6A-44E08FD02286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6FA6539-1901-2832-DB6A-44E08FD02286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F28B1BD-3763-4FD1-B9AA-9FDE33C68073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F28B1BD-3763-4FD1-B9AA-9FDE33C68073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F28B1BD-3763-4FD1-B9AA-9FDE33C68073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F28B1BD-3763-4FD1-B9AA-9FDE33C68073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7DB5EC2-F10B-4C53-BF7A-E6DCDA4518C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DB5EC2-F10B-4C53-BF7A-E6DCDA4518C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DB5EC2-F10B-4C53-BF7A-E6DCDA4518C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DB5EC2-F10B-4C53-BF7A-E6DCDA4518C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
