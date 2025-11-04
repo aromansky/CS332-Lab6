@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Geometry;
+
 namespace CS332_Lab6
 {
     public partial class Scene : Form
@@ -16,7 +18,7 @@ namespace CS332_Lab6
         private Point _prevMousePos;
         private bool _isDragging = false;
         private Camera cam;
-        private Polyhedron poly = null;
+        private Polyhedron poly;
 
         private Point3D linePoint = new Point3D(0, 0, 0);
         private Vector3 lineVector;
