@@ -1,8 +1,4 @@
-﻿using CS332_Lab6.Geometry;
-using CS332_Lab6.Geometry.classes;
-using CS332_Lab6.Geometry.Core;
-using CS332_Lab6.Geometry.Transform;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
