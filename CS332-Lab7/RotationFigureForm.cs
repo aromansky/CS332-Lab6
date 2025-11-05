@@ -54,12 +54,13 @@ namespace CS332_Lab7
                     Point3D p4 = rings[i][j + 1];
 
                     faces.Add(new Face(new List<Edge>
-            {
-                new Edge(p1, p2),
-                new Edge(p2, p3),
-                new Edge(p3, p4),
-                new Edge(p4, p1)
-            }));
+                    {
+                        new Edge(p1, p2),
+                        new Edge(p2, p3),
+                        new Edge(p3, p4),
+                        new Edge(p4, p1)
+                    }
+                    ));
                 }
             }
 
