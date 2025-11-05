@@ -1,4 +1,6 @@
-﻿namespace Geometry
+﻿using System.Globalization;
+
+namespace Geometry
 {
     public class Point3D: ICloneable
     {
@@ -32,5 +34,18 @@
             point = new Point3D(x * scalar, y * scalar, z * scalar);
             return point;
         }
-}
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", X, Y, Z);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Point3D other) return false;
+            return X == other.X && Y == other.Y && Z == other.Z;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+    }
 }

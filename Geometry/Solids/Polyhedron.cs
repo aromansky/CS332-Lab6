@@ -14,8 +14,8 @@
         {
             this.faces = other.Faces.Select(f => (Face)f.Clone()).ToList();
         }
-
-
+        
+        
         public Point3D GetCenter()
         {
             var allCenters = Faces.Select(x => x.GetCenter()).ToList();
@@ -24,6 +24,71 @@
             float centerZ = allCenters.Average(v => v.Z);
             return new Point3D(centerX, centerY, centerZ);
         }
+
+        /// <summary>
+        /// Сохраняет объект в формате Wavefront OBJ
+        /// </summary>
+        /// <param name="path">Путь для сохранения</param>
+        public void Save(string path)
+        {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                List<Point3D> allVerticies = Faces.SelectMany(x => x.Vertices).Distinct().ToList();
+
+                Dictionary<Point3D, int> vertexIndices = new Dictionary<Point3D, int>();
+
+                for (int i = 0; i < allVerticies.Count; i++) vertexIndices[allVerticies[i]] = i + 1;
+
+                foreach (Point3D vert in allVerticies) writer.WriteLine("v " + vert);
+
+                foreach (Face face in Faces)
+                {
+                    List<int> indicies = face.Vertices.Select(x =>  vertexIndices[x]).ToList();
+                    writer.WriteLine("f " + string.Join(" ", indicies));
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Загружает объект из файла в формате Wavefront OBJ
+        /// </summary>
+        /// <param name="fname">Путь к файлу</param>
+        /// <returns>Новый объект</returns>
+        public static Polyhedron Load(string fname)
+        {
+            using (StreamReader reader = new StreamReader(fname))
+            {
+                List<Point3D> allVerticies = new List<Point3D>();
+                List<Face> faces = new List<Face>();
+                string? line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length == 0) continue;
+                    if (parts[0] == "v" && parts.Length == 4)
+                    {
+                        float x = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                        float y = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                        float z = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
+                        allVerticies.Add(new Point3D(x, y, z));
+                    }
+                    else if (parts[0] == "f" && parts.Length >= 4)
+                    {
+                        List<Edge> edges = new List<Edge>();
+                        for (int i = 1; i < parts.Length; i++)
+                        {
+                            int startIndex = int.Parse(parts[i]) - 1;
+                            int endIndex = int.Parse(parts[(i % (parts.Length - 1)) + 1]) - 1;
+                            edges.Add(new Edge(allVerticies[startIndex], allVerticies[endIndex]));
+                        }
+                        faces.Add(new Face(edges));
+                    }
+                }
+                return new Polyhedron(faces);
+            }
+        }
+
 
         public object Clone() => new Polyhedron(this);
 
@@ -220,7 +285,7 @@
                 CreateFace(vertices[5], vertices[17], vertices[19], vertices[7], vertices[15]),
 
                 CreateFace(vertices[3], vertices[14], vertices[1], vertices[16], vertices[18]),
-                CreateFace(vertices[3], vertices[11], vertices[10], vertices[2], vertices[18]),
+                CreateFace(vertices[3], vertices[14], vertices[15], vertices[7], vertices[11]),
                 CreateFace(vertices[4], vertices[13], vertices[6], vertices[19], vertices[17])
             };
 
