@@ -19,6 +19,16 @@
             this.edges = edges.Select(e => (Edge)e.Clone()).ToList();
         }
 
+        public Face(List<Point3D> points)
+        {
+            this.edges = new List<Edge>();
+
+            for (int i = 0; i < points.Count - 1; i++)
+                this.edges.Add(new Edge(points[i], points[i + 1]));
+
+            this.edges.Add(new Edge(points[points.Count - 1], points[0]));
+        }
+
         public Face(Face other)
         {
             this.edges = other.Edges.Select(e => (Edge)e.Clone()).ToList();
