@@ -28,7 +28,7 @@
             {
                 Vector3 v1 = new Vector3(vertices[0], vertices[1]);
                 Vector3 v2 = new Vector3(vertices[0], vertices[2]);
-                this.NormalVector = Vector3.VectorProduct(v1, v2).Normalized();
+                this.NormalVector = Vector3.Cross(v1, v2).Normalized();
             }
             else
                 this.NormalVector = new Vector3(0, 0, 0);
@@ -51,7 +51,7 @@
             {
                 Vector3 v1 = new Vector3(vertices[0], vertices[1]);
                 Vector3 v2 = new Vector3(vertices[0], vertices[2]);
-                this.NormalVector = Vector3.VectorProduct(v1, v2).Normalized();
+                this.NormalVector = Vector3.Cross(v1, v2).Normalized();
             }
             else
                 this.NormalVector = new Vector3(0, 0, 0);
@@ -76,7 +76,7 @@
             {
                 Vector3 v1 = new Vector3(vertices[0], vertices[1]);
                 Vector3 v2 = new Vector3(vertices[0], vertices[2]);
-                this.NormalVector = Vector3.VectorProduct(v1, v2).Normalized();
+                this.NormalVector = Vector3.Cross(v1, v2).Normalized();
             }
             else
                 this.NormalVector = new Vector3(0, 0, 0);
@@ -126,10 +126,10 @@
             }
             else
             {
-                viewVector = -camera.ViewDirection.Normalized();
+                viewVector = camera.ViewDirection.Normalized();
             }
 
-            float dot = Vector3.ScalarProduct(NormalVector, viewVector);
+            float dot = Vector3.Dot(NormalVector, viewVector);
             return dot > 0;
         }
 

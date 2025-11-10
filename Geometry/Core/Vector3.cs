@@ -49,7 +49,7 @@
             return X == 0 && Y == 0 && Z == 0;
         }
 
-        public static Vector3 VectorProduct(Vector3 v1, Vector3 v2)
+        public static Vector3 Cross(Vector3 v1, Vector3 v2)
         {
             return new Vector3(
                 v1.Y * v2.Z - v1.Z * v2.Y,
@@ -59,7 +59,7 @@
         }
 
 
-        public static float ScalarProduct(Vector3 v1, Vector3 v2)
+        public static float Dot(Vector3 v1, Vector3 v2)
         {
             return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
         }

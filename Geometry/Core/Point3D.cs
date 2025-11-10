@@ -35,6 +35,8 @@ namespace Geometry
             return point;
         }
 
+        public Vector3 ToVector3() => new Vector3(X, Y, Z);
+
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", X, Y, Z);
