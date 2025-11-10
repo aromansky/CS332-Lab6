@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CS332-Lab7\CS332-Lab7.csproj" />
     <ProjectReference Include="..\Geometry\Geometry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Scene.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

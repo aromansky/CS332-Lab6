@@ -16,6 +16,26 @@
             this.Z = z;
         }
 
+        /// <summary>
+        /// Создаёт ненормированный вектор
+        /// </summary>
+        public Vector3(Point3D p1, Point3D p2)
+        {
+            this.X = p2.X - p1.X;
+            this.Y = p2.Y - p1.Y;
+            this.Z = p2.Z - p1.Z;
+        }
+
+        /// <summary>
+        /// Создаёт ненормированный вектор
+        /// </summary>
+        public Vector3(Point3D p1)
+        {
+            this.X = p1.X;
+            this.Y = p1.Y;
+            this.Z = p1.Z;
+        }
+
         public Vector3 Normalized()
         {
             float length = (float)Math.Sqrt(X * X + Y * Y + Z * Z);
@@ -36,6 +56,17 @@
                 v1.Z * v2.X - v1.X * v2.Z,
                 v1.X * v2.Y - v1.Y * v2.X
             );
+        }
+
+
+        public static float ScalarProduct(Vector3 v1, Vector3 v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+        }
+
+        public static Vector3 operator- (Vector3 v)
+        {
+            return new Vector3(-v.X, -v.Y, -v.Z);
         }
 
     }

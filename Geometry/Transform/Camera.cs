@@ -14,6 +14,8 @@ namespace Geometry
     {
         public Point3D Position { get; set; }
 
+        public Vector3 ViewDirection { get; set; } = new Vector3(0, 0, 1);
+
         public float FovDegrees { get; set; } = 60f;
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
@@ -34,6 +36,14 @@ namespace Geometry
             SetModeDefaults(Mode);
         }
 
+        public void SetViewDirection(Vector3 direction)
+        {
+            if (direction.IsZero())
+                throw new ArgumentException("Вектор направления не может быть нулевым");
+            ViewDirection = direction.Normalized();
+        }
+
+
         private void SetModeDefaults(ProjectionMode mode)
         {
             switch (mode)
@@ -42,21 +52,39 @@ namespace Geometry
                     AxonometricAngleX = 35.264f;
                     AxonometricAngleY = 45f;
                     OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
+                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
                     break;
                 case ProjectionMode.Dimetric:
                     AxonometricAngleX = 20.705f;
                     AxonometricAngleY = 45f;
                     OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
+                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
                     break;
                 case ProjectionMode.Trimetric:
                     AxonometricAngleX = 25f;
                     AxonometricAngleY = 15f;
                     OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
+                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
                     break;
                 case ProjectionMode.Perspective:
+                    ViewDirection = new Vector3(0, 0, 1);
+                    break;
                 default:
                     break;
             }
+        }
+
+        private Vector3 GetAxonometricViewDirection(float angleXdeg, float angleYdeg)
+        {
+            float ax = angleXdeg * (float)Math.PI / 180f;
+            float ay = angleYdeg * (float)Math.PI / 180f;
+
+            float x = (float)(Math.Sin(ay) * Math.Cos(ax));
+            float y = (float)(Math.Sin(ax));
+            float z = (float)(Math.Cos(ay) * Math.Cos(ax));
+
+            var dir = new Vector3(x, y, z);
+            return dir.Normalized();
         }
 
         public void SetMode(ProjectionMode mode)
@@ -137,6 +165,8 @@ namespace Geometry
 
             foreach (var face in poly.Faces)
             {
+                if (!face.IsFrontFace(this)) continue;
+
                 var projected = new List<PointF>();
                 foreach (var v in face.Vertices)
                 {

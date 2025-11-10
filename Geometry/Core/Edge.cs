@@ -11,7 +11,7 @@
             this.Start = start;
             this.End = end;
 
-            this.Vector3 = new Vector3(end.X - start.X, end.Y - start.Y, end.Z - start.Z).Normalized();
+            this.Vector3 = new Vector3(end.X - start.X, end.Y - start.Y, end.Z - start.Z);
         }
 
         public Edge(Edge other)

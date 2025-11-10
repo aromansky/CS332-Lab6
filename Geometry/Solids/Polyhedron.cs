@@ -75,14 +75,13 @@
                     }
                     else if (parts[0] == "f" && parts.Length >= 4)
                     {
-                        List<Edge> edges = new List<Edge>();
+                        List<int> indices = new List<int>();
                         for (int i = 1; i < parts.Length; i++)
                         {
-                            int startIndex = int.Parse(parts[i]) - 1;
-                            int endIndex = int.Parse(parts[(i % (parts.Length - 1)) + 1]) - 1;
-                            edges.Add(new Edge(allVerticies[startIndex], allVerticies[endIndex]));
+                            int index = int.Parse(parts[i].Split('/')[0]) - 1;
+                            indices.Add(index);
                         }
-                        faces.Add(new Face(edges));
+                        faces.Add(new Face(indices.Select(x => allVerticies[x]).ToList()));
                     }
                 }
                 return new Polyhedron(faces);
@@ -97,18 +96,18 @@
         {
             var vertices = new List<Point3D>
             {
-                new Point3D(size, size, size),
-                new Point3D(-size, -size, size),
-                new Point3D(-size, size, -size),
-                new Point3D(size, -size, -size)
+                new Point3D(size, size, size),       // 0
+                new Point3D(-size, -size, size),     // 1
+                new Point3D(-size, size, -size),     // 2
+                new Point3D(size, -size, -size)      // 3
             };
 
             var faces = new List<Face>
             {
-                CreateFace(vertices[0], vertices[1], vertices[2]),
-                CreateFace(vertices[0], vertices[2], vertices[3]),
-                CreateFace(vertices[0], vertices[3], vertices[1]),
-                CreateFace(vertices[1], vertices[3], vertices[2])
+                new Face(vertices[0], vertices[2], vertices[1]),
+                new Face(vertices[0], vertices[3], vertices[2]),
+                new Face(vertices[0], vertices[1], vertices[3]),
+                new Face(vertices[1], vertices[2], vertices[3])
             };
 
             return new Polyhedron(faces);
@@ -120,24 +119,24 @@
             var halfSize = size / 2;
             var vertices = new List<Point3D>
             {
-                new Point3D(-halfSize, -halfSize, -halfSize), // 0
-                new Point3D(halfSize, -halfSize, -halfSize),  // 1
-                new Point3D(halfSize, halfSize, -halfSize),   // 2
+                new Point3D(-halfSize, -halfSize, halfSize), // 0
+                new Point3D(-halfSize, halfSize, halfSize),  // 1
+                new Point3D(-halfSize, -halfSize, -halfSize),   // 2
                 new Point3D(-halfSize, halfSize, -halfSize),  // 3
-                new Point3D(-halfSize, -halfSize, halfSize),  // 4
-                new Point3D(halfSize, -halfSize, halfSize),   // 5
-                new Point3D(halfSize, halfSize, halfSize),    // 6
-                new Point3D(-halfSize, halfSize, halfSize)    // 7
+                new Point3D(halfSize, -halfSize, halfSize),  // 4
+                new Point3D(halfSize, halfSize, halfSize),   // 5
+                new Point3D(halfSize, -halfSize, -halfSize),    // 6
+                new Point3D(halfSize, halfSize, -halfSize)    // 7
             };
 
             var faces = new List<Face>
             {
-                CreateFace(vertices[0], vertices[1], vertices[2], vertices[3]), // задняя
-                CreateFace(vertices[4], vertices[5], vertices[6], vertices[7]), // передняя
-                CreateFace(vertices[0], vertices[1], vertices[5], vertices[4]), // нижняя
-                CreateFace(vertices[2], vertices[3], vertices[7], vertices[6]), // верхняя
-                CreateFace(vertices[0], vertices[3], vertices[7], vertices[4]), // левая
-                CreateFace(vertices[1], vertices[2], vertices[6], vertices[5])  // правая
+                new Face(vertices[0], vertices[1], vertices[3], vertices[2]), // задняя
+                new Face(vertices[2], vertices[3], vertices[7], vertices[6]), // передняя
+                new Face(vertices[6], vertices[7], vertices[5], vertices[4]), // нижняя
+                new Face(vertices[4], vertices[5], vertices[1], vertices[0]), // верхняя
+                new Face(vertices[2], vertices[6], vertices[4], vertices[0]), // левая
+                new Face(vertices[7], vertices[3], vertices[1], vertices[5])  // правая
             };
 
             return new Polyhedron(faces);
@@ -158,14 +157,14 @@
 
             var faces = new List<Face>
             {
-                CreateFace(vertices[4], vertices[0], vertices[2]), // верхние треугольники
-                CreateFace(vertices[4], vertices[2], vertices[1]),
-                CreateFace(vertices[4], vertices[1], vertices[3]),
-                CreateFace(vertices[4], vertices[3], vertices[0]),
-                CreateFace(vertices[5], vertices[2], vertices[0]), // нижние треугольники
-                CreateFace(vertices[5], vertices[1], vertices[2]),
-                CreateFace(vertices[5], vertices[3], vertices[1]),
-                CreateFace(vertices[5], vertices[0], vertices[3])
+                new Face(vertices[4], vertices[0], vertices[2]), // верхние треугольники
+                new Face(vertices[4], vertices[2], vertices[1]),
+                new Face(vertices[4], vertices[1], vertices[3]),
+                new Face(vertices[4], vertices[3], vertices[0]),
+                new Face(vertices[5], vertices[2], vertices[0]), // нижние треугольники
+                new Face(vertices[5], vertices[1], vertices[2]),
+                new Face(vertices[5], vertices[3], vertices[1]),
+                new Face(vertices[5], vertices[0], vertices[3])
             };
 
             return new Polyhedron(faces);
@@ -195,29 +194,29 @@
             var faces = new List<Face>
             {
                 // 20 треугольных граней
-                CreateFace(vertices[0], vertices[1], vertices[8]),
-                CreateFace(vertices[0], vertices[8], vertices[4]),
-                CreateFace(vertices[0], vertices[4], vertices[5]),
-                CreateFace(vertices[0], vertices[5], vertices[10]),
-                CreateFace(vertices[0], vertices[10], vertices[1]),
+                new Face(vertices[0], vertices[1], vertices[8]),
+                new Face(vertices[0], vertices[8], vertices[4]),
+                new Face(vertices[0], vertices[4], vertices[5]),
+                new Face(vertices[0], vertices[5], vertices[10]),
+                new Face(vertices[0], vertices[10], vertices[1]),
 
-                CreateFace(vertices[1], vertices[6], vertices[8]),
-                CreateFace(vertices[8], vertices[6], vertices[9]),
-                CreateFace(vertices[8], vertices[9], vertices[4]),
-                CreateFace(vertices[4], vertices[9], vertices[2]),
-                CreateFace(vertices[4], vertices[2], vertices[5]),
+                new Face(vertices[1], vertices[6], vertices[8]),
+                new Face(vertices[8], vertices[6], vertices[9]),
+                new Face(vertices[8], vertices[9], vertices[4]),
+                new Face(vertices[4], vertices[9], vertices[2]),
+                new Face(vertices[4], vertices[2], vertices[5]),
 
-                CreateFace(vertices[5], vertices[2], vertices[11]),
-                CreateFace(vertices[5], vertices[11], vertices[10]),
-                CreateFace(vertices[10], vertices[11], vertices[7]),
-                CreateFace(vertices[10], vertices[7], vertices[1]),
-                CreateFace(vertices[1], vertices[7], vertices[6]),
+                new Face(vertices[5], vertices[2], vertices[11]),
+                new Face(vertices[5], vertices[11], vertices[10]),
+                new Face(vertices[10], vertices[11], vertices[7]),
+                new Face(vertices[10], vertices[7], vertices[1]),
+                new Face(vertices[1], vertices[7], vertices[6]),
 
-                CreateFace(vertices[3], vertices[6], vertices[7]),
-                CreateFace(vertices[3], vertices[7], vertices[11]),
-                CreateFace(vertices[3], vertices[11], vertices[2]),
-                CreateFace(vertices[3], vertices[2], vertices[9]),
-                CreateFace(vertices[3], vertices[9], vertices[6])
+                new Face(vertices[3], vertices[6], vertices[7]),
+                new Face(vertices[3], vertices[7], vertices[11]),
+                new Face(vertices[3], vertices[11], vertices[2]),
+                new Face(vertices[3], vertices[2], vertices[9]),
+                new Face(vertices[3], vertices[9], vertices[6])
             };
 
             return new Polyhedron(faces);
@@ -272,39 +271,24 @@
             // Грани (12 пятиугольников)
             var faces = new List<Face>
             {
-                CreateFace(vertices[0], vertices[16], vertices[18], vertices[2], vertices[12]),
-                CreateFace(vertices[0], vertices[16], vertices[1], vertices[9], vertices[8]),
-                CreateFace(vertices[0], vertices[12], vertices[13], vertices[4], vertices[8]),
+                new Face(vertices[0], vertices[12], vertices[2], vertices[18], vertices[16]),
+                new Face(vertices[0], vertices[16], vertices[1], vertices[9], vertices[8]),
+                new Face(vertices[0], vertices[8], vertices[4], vertices[13], vertices[12]),
 
-                CreateFace(vertices[10], vertices[2], vertices[12], vertices[13], vertices[6]),
-                CreateFace(vertices[10], vertices[6], vertices[19], vertices[7], vertices[11]),
-                CreateFace(vertices[10], vertices[2], vertices[18], vertices[3], vertices[11]),
+                new Face(vertices[10], vertices[2], vertices[12], vertices[13], vertices[6]),
+                new Face(vertices[10], vertices[6], vertices[19], vertices[7], vertices[11]),
+                new Face(vertices[10], vertices[11], vertices[3], vertices[18], vertices[2]),
 
-                CreateFace(vertices[5], vertices[9], vertices[8], vertices[4], vertices[17]),
-                CreateFace(vertices[5], vertices[9], vertices[1], vertices[14], vertices[15]),
-                CreateFace(vertices[5], vertices[17], vertices[19], vertices[7], vertices[15]),
+                new Face(vertices[5], vertices[17], vertices[4], vertices[8], vertices[9]),
+                new Face(vertices[5], vertices[9], vertices[1], vertices[14], vertices[15]),
+                new Face(vertices[5], vertices[15], vertices[7], vertices[19], vertices[17]),
 
-                CreateFace(vertices[3], vertices[14], vertices[1], vertices[16], vertices[18]),
-                CreateFace(vertices[3], vertices[14], vertices[15], vertices[7], vertices[11]),
-                CreateFace(vertices[4], vertices[13], vertices[6], vertices[19], vertices[17])
+                new Face(vertices[3], vertices[14], vertices[1], vertices[16], vertices[18]),
+                new Face(vertices[3], vertices[11], vertices[7], vertices[15], vertices[14]),
+                new Face(vertices[4], vertices[17], vertices[19], vertices[6], vertices[13])
             };
 
             return new Polyhedron(faces);
-        }
-
-
-
-
-
-        // Вспомогательные методы для создания граней
-        private static Face CreateFace(params Point3D[] Point3Ds)
-        {
-            var edges = new List<Edge>();
-            for (int i = 0; i < Point3Ds.Length; i++)
-            {
-                edges.Add(new Edge(Point3Ds[i], Point3Ds[(i + 1) % Point3Ds.Length]));
-            }
-            return new Face(edges);
         }
     }
 }

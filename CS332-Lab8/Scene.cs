@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Geometry;
-
-namespace CS332_Lab7
+using CS332_Lab7;
+namespace CS332_Lab8
 {
     public partial class Scene : Form
     {
