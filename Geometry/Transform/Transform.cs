@@ -88,7 +88,7 @@
         {
             Matrix T1 = CreateTranslationMatrix(-point.X, -point.Y, -point.Z);
 
-            Vector3 u = vector.Normalize();
+            Vector3 u = vector.Normalized();
 
             float l = u.X, m = u.Y, n = u.Z;
 

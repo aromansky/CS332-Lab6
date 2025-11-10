@@ -142,7 +142,7 @@ namespace CS332_Lab6
             // === ОСЬ ВРАЩЕНИЯ (если выбрана пользовательская) ===
             if (rotatingCustomAxisMode && !lineVector.IsZero())
             {
-                Vector3 dir = lineVector.Normalize();
+                Vector3 dir = lineVector.Normalized();
                 float len = 5.0f;
 
                 Point3D start = new Point3D(
