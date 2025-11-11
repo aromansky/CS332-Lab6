@@ -2,14 +2,6 @@
 
 namespace Geometry
 {
-    public enum ProjectionMode
-    {
-        Perspective,
-        Trimetric,
-        Dimetric,
-        Isometric
-    }
-
     public class Camera
     {
         public Point3D Position { get; set; }
@@ -165,7 +157,7 @@ namespace Geometry
 
             foreach (var face in poly.Faces)
             {
-                if (!face.IsFrontFace(this)) continue;
+               // if (!face.IsFrontFace(this)) continue;
 
                 var projected = new List<PointF>();
                 foreach (var v in face.Vertices)

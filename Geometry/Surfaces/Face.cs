@@ -64,9 +64,9 @@
 
             points = points.Distinct().ToArray();
 
-            for (int i = 0; i < points.Count(); i++)
+            for (int i = 0; i < points.Length; i++)
             {
-                this.edges.Add(new Edge(points[i], points[(i + 1) % points.Count()]));
+                this.edges.Add(new Edge(points[i], points[(i + 1) % points.Length]));
                 this.vertices.Add(points[i]);
 
             }
@@ -115,7 +115,7 @@
             return new Point3D(centerX, centerY, centerZ);
         }
 
-        public bool IsFrontFace(Camera camera)
+        public bool IsFrontFace(NewCamera camera)
         {
             if (vertices.Count < 3) return true;
             Vector3 viewVector;

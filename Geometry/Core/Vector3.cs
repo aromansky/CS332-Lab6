@@ -69,5 +69,9 @@
             return new Vector3(-v.X, -v.Y, -v.Z);
         }
 
+        public static Vector3 operator *(Vector3 v, float n)
+        {
+            return new Vector3(v.X * n, v.Y * n, v.Z * n);
+        }
     }
 }
