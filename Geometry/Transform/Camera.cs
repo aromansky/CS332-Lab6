@@ -1,193 +1,236 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Geometry
 {
     public class Camera
     {
         public Point3D Position { get; set; }
-
-        public Vector3 ViewDirection { get; set; } = new Vector3(0, 0, 1);
-
+        public Vector3 ViewDirection { get; set; }
         public float FovDegrees { get; set; } = 60f;
+        public ProjectionMode Mode { get; set; } = ProjectionMode.Perspective;
+        public Point3D Target { get; set; } = new Point3D(0, 0, 0);
+
+
+        public Matrix ViewMatrix { get; private set; }
+        public Vector3 Up { get; private set; } = new Vector3(0, 1, 0);
+        public float NearPlane { get; set; } = 0.5f;
         public int ScreenWidth { get; set; }
         public int ScreenHeight { get; set; }
 
-        public ProjectionMode Mode { get; set; } = ProjectionMode.Perspective;
+        private Vector3 n;
+        private Vector3 u;
+        private Vector3 v;
 
-        public float AxonometricAngleX { get; set; }
-        public float AxonometricAngleY { get; set; }
-        public float OrthoScale { get; set; } = 100f;
-
-        public Camera(Point3D position, float fovDegrees, int screenWidth, int screenHeight)
+        public Camera(Point3D position, Point3D target, int screenWidth, int screenHeight)
         {
             Position = position;
-            FovDegrees = fovDegrees;
+            ViewDirection = new Vector3(Position, Target).Normalized();
+
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
 
-            SetModeDefaults(Mode);
+            ComputeBasisVectors();
+            ComputeViewMatrix();
         }
 
-        public void SetViewDirection(Vector3 direction)
+        public void SetPosition(Point3D newPosition)
         {
-            if (direction.IsZero())
-                throw new ArgumentException("Вектор направления не может быть нулевым");
-            ViewDirection = direction.Normalized();
+            Position = newPosition;
+            ViewDirection = new Vector3(Position, Target).Normalized();
+            ComputeBasisVectors();
+            ComputeViewMatrix();
         }
 
-
-        private void SetModeDefaults(ProjectionMode mode)
+        private void ComputeBasisVectors()
         {
-            switch (mode)
+            n = -ViewDirection;
+            u = Vector3.Cross(Up, n).Normalized();
+            v = Vector3.Cross(n, u).Normalized();
+        }
+
+        private void SetParallelCameraOrientation(float angleXDeg, float angleYDeg)
+        {
+            float ax = angleXDeg * (float)Math.PI / 180f;
+            float ay = angleYDeg * (float)Math.PI / 180f;
+
+            ViewDirection = new Vector3(
+                (float)(Math.Cos(ax) * Math.Sin(ay)),
+                (float)(Math.Sin(ax)),
+                (float)(Math.Cos(ax) * Math.Cos(ay))
+            ).Normalized();
+
+            float distance = 1000f;
+            Vector3 v = ViewDirection * distance;
+            Position = new Point3D(Target.X - v.X, Target.Y - v.Y, Target.Z - v.Z);
+
+            n = -ViewDirection;
+            u = Vector3.Cross(Up, n).Normalized();
+            v = Vector3.Cross(n, u).Normalized();
+
+            ViewMatrix = new Matrix(new float[,]
             {
-                case ProjectionMode.Isometric:
-                    AxonometricAngleX = 35.264f;
-                    AxonometricAngleY = 45f;
-                    OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
-                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
-                    break;
-                case ProjectionMode.Dimetric:
-                    AxonometricAngleX = 20.705f;
-                    AxonometricAngleY = 45f;
-                    OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
-                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
-                    break;
-                case ProjectionMode.Trimetric:
-                    AxonometricAngleX = 25f;
-                    AxonometricAngleY = 15f;
-                    OrthoScale = Math.Min(ScreenWidth, ScreenHeight) / 4f;
-                    ViewDirection = GetAxonometricViewDirection(AxonometricAngleX, AxonometricAngleY);
-                    break;
+                { u.X, v.X, n.X, 0 },
+                { u.Y, v.Y, n.Y, 0 },
+                { u.Z, v.Z, n.Z, 0 },
+                { -Vector3.Dot(Position.ToVector3(), u),
+                  -Vector3.Dot(Position.ToVector3(), v),
+                  -Vector3.Dot(Position.ToVector3(), n),
+                  1 }
+            });
+        }
+
+
+        private void ComputeViewMatrix()
+        {
+            float angleX, angleY;
+            Matrix Ry, Rx;
+
+            switch (Mode)
+            {
                 case ProjectionMode.Perspective:
-                    ViewDirection = new Vector3(0, 0, 1);
+                    ViewMatrix = new Matrix(new float[,]
+                    {
+                        { u.X, v.X, n.X, 0 },
+                        { u.Y, v.Y, n.Y, 0 },
+                        { u.Z, v.Z, n.Z, 0 },
+                        { -Vector3.Dot(Position.ToVector3(), u),
+                          -Vector3.Dot(Position.ToVector3(), v),
+                          -Vector3.Dot(Position.ToVector3(), n),
+                          1 }
+                    });
                     break;
-                default:
+
+                case ProjectionMode.Trimetric:
+                    angleX = 45;
+                    angleY = 30;
+
+                    Ry = Transform.CreateRotationAroundYMatrix(angleY);
+                    Rx = Transform.CreateRotationAroundXMatrix(angleX);
+
+                    ViewMatrix = Ry * Rx;
+                    SetParallelCameraOrientation(angleX, angleY);
+                    break;
+
+                case ProjectionMode.Dimetric:
+                    angleX = 26.23f;
+                    angleY = -29.52f;
+
+                    Ry = Transform.CreateRotationAroundYMatrix(angleY);
+                    Rx = Transform.CreateRotationAroundXMatrix(angleX);
+
+                    ViewMatrix = Ry * Rx;
+                    SetParallelCameraOrientation(angleX, angleY);
+                    break;
+
+                case ProjectionMode.Isometric:
+                    angleX = 35.26f;
+                    angleY = 45;
+
+                    Ry = Transform.CreateRotationAroundYMatrix(angleY);
+                    Rx = Transform.CreateRotationAroundXMatrix(angleX);
+
+                    ViewMatrix = Ry * Rx;
+                    SetParallelCameraOrientation(angleX, angleY);
                     break;
             }
-        }
 
-        private Vector3 GetAxonometricViewDirection(float angleXdeg, float angleYdeg)
-        {
-            float ax = angleXdeg * (float)Math.PI / 180f;
-            float ay = angleYdeg * (float)Math.PI / 180f;
 
-            float x = (float)(Math.Sin(ay) * Math.Cos(ax));
-            float y = (float)(Math.Sin(ax));
-            float z = (float)(Math.Cos(ay) * Math.Cos(ax));
-
-            var dir = new Vector3(x, y, z);
-            return dir.Normalized();
         }
 
         public void SetMode(ProjectionMode mode)
         {
             Mode = mode;
-            SetModeDefaults(mode);
+            ComputeViewMatrix();
         }
 
-        public PointF Project(Point3D p)
+        private Point3D ProjectPoint(Point3D point)
         {
+            Point3D transformedPoint = Transform.Apply(ViewMatrix, point);
+            return transformedPoint;
+        }
+
+        private Point3D[] ProjectFace(Face face)
+        {
+            return face.Vertices.Select(x => ProjectPoint(x)).ToArray();
+        }
+
+        private Point3D[][] ProjectPolyhedron(Polyhedron polyhedron)
+        {
+            return polyhedron.Faces.Select(x => ProjectFace(x)).ToArray();
+        }
+
+        private PointF? ProjectPoint2D(Point3D point)
+        {
+            Point3D cameraPoint = ProjectPoint(point);
+            float screenX = 0, screenY = 0;
+            float orthoScale = 100f;
+
             switch (Mode)
             {
                 case ProjectionMode.Perspective:
-                    return ProjectPerspective(p);
+                    if (-cameraPoint.Z < NearPlane)
+                        return null;
+
+                    float fovRad = FovDegrees * (float)Math.PI / 180f;
+
+                    float viewHeight = 2f * NearPlane * (float)Math.Tan(fovRad / 2f);
+
+                    // Соотношение сторон экрана
+                    float aspect = (float)ScreenWidth / ScreenHeight;
+                    float viewWidth = viewHeight * aspect;
+
+                    float x = NearPlane * cameraPoint.X / -cameraPoint.Z;
+                    float y = NearPlane * cameraPoint.Y / -cameraPoint.Z;
+
+                    screenX = (x / viewWidth + 0.5f) * ScreenWidth;
+                    screenY = (0.5f - y / viewHeight) * ScreenHeight;
+                    break;
                 case ProjectionMode.Isometric:
-                case ProjectionMode.Dimetric:
-                case ProjectionMode.Trimetric:
-                    return ProjectAxonometric(p, AxonometricAngleX, AxonometricAngleY);
-                default:
-                    return ProjectPerspective(p);
-            }
-        }
-
-        private PointF ProjectPerspective(Point3D p)
-        {
-            var (px, py, pz) = p.GetCoords();
-            var (cx, cy, cz) = Position.GetCoords();
-
-            float x = px - cx;
-            float y = py - cy;
-            float z = pz - cz;
-
-            if (z <= 0.0001f)
-                return new PointF(float.NaN, float.NaN);
-
-            float f = (float)((ScreenHeight / 2.0) / Math.Tan((FovDegrees * Math.PI / 180.0) / 2.0));
-
-            float sx = (f * x) / z;
-            float sy = (f * y) / z;
-
-            float screenX = ScreenWidth / 2f + sx;
-            float screenY = ScreenHeight / 2f - sy;
-
-            return new PointF(screenX, screenY);
-        }
-
-        private PointF ProjectAxonometric(Point3D p, float angleXdeg, float angleYdeg)
-        {
-            var (px, py, pz) = p.GetCoords();
-            
-
-            float ax = angleXdeg * (float)Math.PI / 180f;
-            float ay = angleYdeg * (float)Math.PI / 180f;
-
-            var rel = new Point3D(px, py, pz); // точка в мировой системе
-
-            rel = new Point3D(px, py, pz);
-
-            Matrix rotX = Transform.CreateRotationAroundXMatrix(AxonometricAngleX * (float)Math.PI / 180);
-            Matrix rotY = Transform.CreateRotationAroundYMatrix(AxonometricAngleY * (float)Math.PI / 180);
-
-            Matrix factor = Matrix.Identity(4);
-            factor[2, 3] = 0;
-
-            Matrix composite = rotY * rotX * factor;
-            Point3D transformed = Transform.Apply(composite, rel);
-
-            float screenX = ScreenWidth / 2f + transformed.X * OrthoScale;
-            float screenY = ScreenHeight / 2f - transformed.Y * OrthoScale;
-
-            return new PointF(screenX, screenY);
-        }
-
-        public List<List<PointF>> Project(Polyhedron poly)
-        {
-            var allProjected = new List<PointF>();
-            var result = new List<List<PointF>>();
-
-            foreach (var face in poly.Faces)
-            {
-               // if (!face.IsFrontFace(this)) continue;
-
-                var projected = new List<PointF>();
-                foreach (var v in face.Vertices)
-                {
-                    var proj = Project(v);
-                    projected.Add(proj);
-                    allProjected.Add(proj);
-                }
-                result.Add(projected);
-            }
-
-            if (Mode != ProjectionMode.Perspective)
-            {
-                float minX = allProjected.Where(p => !float.IsNaN(p.X)).Min(p => p.X);
-                float maxX = allProjected.Where(p => !float.IsNaN(p.X)).Max(p => p.X);
-                float minY = allProjected.Where(p => !float.IsNaN(p.Y)).Min(p => p.Y);
-                float maxY = allProjected.Where(p => !float.IsNaN(p.Y)).Max(p => p.Y);
-
-                for (int i = 0; i < result.Count; i++)
-                {
-                    for (int j = 0; j < result[i].Count; j++)
                     {
-                        var p = result[i][j];
-                        result[i][j] = new PointF(p.X, p.Y);
+                        // Масштабируем координаты, так как глубина не влияет
+                        screenX = (cameraPoint.X * orthoScale) + ScreenWidth / 2f;
+                        screenY = (-cameraPoint.Y * orthoScale) + ScreenHeight / 2f;
+                        break;
                     }
-                }
-            }
 
-            return result;
+                case ProjectionMode.Dimetric:
+                    {
+                        screenX = (cameraPoint.X * orthoScale) + ScreenWidth / 2f;
+                        screenY = (-cameraPoint.Y * orthoScale) + ScreenHeight / 2f;
+                        break;
+                    }
+
+                case ProjectionMode.Trimetric:
+                    {
+                        screenX = (cameraPoint.X * orthoScale) + ScreenWidth / 2f;
+                        screenY = (-cameraPoint.Y * orthoScale) + ScreenHeight / 2f;
+                        break;
+                    }
+            }
+            return new PointF(screenX, screenY);
         }
+
+        private PointF[] ProjectFace2D(Face face)
+        {
+            var points2D = face.Vertices
+                                .Select(x => ProjectPoint2D(x))
+                                .Where(p => p.HasValue)
+                                .Select(p => p.Value)
+                                .ToArray();
+
+            return points2D.Length > 0 ? points2D : null;
+        }
+
+        public PointF[][] Project(Polyhedron polyhedron)
+        {
+            return polyhedron.Faces.Where(x => x.IsFrontFace(this)).Select(x => ProjectFace2D(x)).ToArray();
+        }
+
 
     }
 }
