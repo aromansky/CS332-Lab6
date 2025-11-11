@@ -2,6 +2,7 @@
 {
     public class Polyhedron : ICloneable
     {
+        public String Name { get; set; } = "Polyhedron";
         private List<Face> faces;
         public List<Face> Faces { get { return faces.Select(f => (Face)f.Clone()).ToList(); } }
 
@@ -110,7 +111,10 @@
                 new Face(vertices[1], vertices[2], vertices[3])
             };
 
-            return new Polyhedron(faces);
+            Polyhedron polyhedron = new Polyhedron(faces);
+            polyhedron.Name = "Тетраэдр";
+
+            return polyhedron;
         }
 
         // Гексаэдр (куб)
@@ -139,7 +143,10 @@
                 new Face(vertices[7], vertices[3], vertices[1], vertices[5])  // правая
             };
 
-            return new Polyhedron(faces);
+            Polyhedron polyhedron = new Polyhedron(faces);
+            polyhedron.Name = "Гексаэдр";
+
+            return polyhedron;
         }
 
         // Октаэдр
@@ -167,7 +174,10 @@
                 new Face(vertices[5], vertices[0], vertices[3])
             };
 
-            return new Polyhedron(faces);
+            Polyhedron polyhedron = new Polyhedron(faces);
+            polyhedron.Name = "Октаэдр";
+
+            return polyhedron;
         }
 
         // Икосаэдр
@@ -219,7 +229,10 @@
                 new Face(vertices[3], vertices[9], vertices[6])
             };
 
-            return new Polyhedron(faces);
+            Polyhedron polyhedron = new Polyhedron(faces);
+            polyhedron.Name = "Икосаэдр";
+
+            return polyhedron;
         }
 
         // Додекаэдр
@@ -288,7 +301,10 @@
                 new Face(vertices[4], vertices[17], vertices[19], vertices[6], vertices[13])
             };
 
-            return new Polyhedron(faces);
+            Polyhedron polyhedron = new Polyhedron(faces);
+            polyhedron.Name = "Додекаэдр";
+
+            return polyhedron;
         }
     }
 }

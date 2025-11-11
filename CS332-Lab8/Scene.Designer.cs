@@ -89,6 +89,7 @@
             groupBox1 = new GroupBox();
             setCamersRadioButton = new RadioButton();
             setPolyhedronRadioButton = new RadioButton();
+            currentPhigureToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)lineStartXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartYNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartZNumericUpDown).BeginInit();
@@ -348,7 +349,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, фигурыToolStripMenuItem1, проекцияToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, фигурыToolStripMenuItem1, проекцияToolStripMenuItem, currentPhigureToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(5, 3, 0, 3);
@@ -707,6 +708,13 @@
             setPolyhedronRadioButton.UseVisualStyleBackColor = true;
             setPolyhedronRadioButton.CheckedChanged += setPolyhedronRadioButton_CheckedChanged;
             // 
+            // currentPhigureToolStripMenuItem
+            // 
+            currentPhigureToolStripMenuItem.Name = "currentPhigureToolStripMenuItem";
+            currentPhigureToolStripMenuItem.Size = new Size(134, 24);
+            currentPhigureToolStripMenuItem.Text = "Текущая фигура";
+            currentPhigureToolStripMenuItem.Click += currentPhigureToolStripMenuItem_Click;
+            // 
             // Scene
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -837,6 +845,7 @@
         private GroupBox groupBox1;
         private RadioButton setCamersRadioButton;
         private RadioButton setPolyhedronRadioButton;
+        private ToolStripMenuItem currentPhigureToolStripMenuItem;
     }
 }
 

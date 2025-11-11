@@ -19,7 +19,8 @@ namespace CS332_Lab8
         private Point _prevMousePos;
         private bool _isDragging = false;
         private Camera cam;
-        private Polyhedron poly;
+        private List<Polyhedron> polyhedrons = new List<Polyhedron>();
+        internal int polyInd = -1;
 
         private Point3D linePoint = new Point3D(0, 0, 0);
         private Vector3 lineVector;
@@ -88,7 +89,7 @@ namespace CS332_Lab8
             {
                 deltaX = e.X - _prevMousePos.X;
 
-                if (setPoly && poly != null)
+                if (setPoly && polyhedrons[polyInd] != null)
                 {
                     PolyhedronProcessing();
                 }
@@ -174,25 +175,30 @@ namespace CS332_Lab8
                 }
             }
 
-            if (poly == null) return;
-
-            var projectedFaces = cam.Project(poly);
-
-            using (var pen = new Pen(Color.Black, 1f))
+            for (int i = 0; i < polyhedrons.Count; i++)
             {
-                foreach (var face in projectedFaces)
-                {
-                    if (face == null)
-                        continue;
+                Polyhedron p = polyhedrons[i];
+                PointF[][] projectedFaces = cam.Project(p);
 
-                    for (int i = 0; i < face.Length; i++)
+                using (Pen pen = new Pen(Color.Black, 1f))
+                {
+                    if (i == polyInd) pen.Color = Color.Purple;
+                    else pen.Color = Color.Black;
+
+                    foreach (PointF[] face in projectedFaces)
                     {
-                        var a = face[i];
-                        var b = face[(i + 1) % face.Length];
-                        if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
+                        if (face == null)
+                            continue;
+
+                        for (int j = 0; j < face.Length; j++)
                         {
-                            g.DrawLine(pen, a, b);
-                            g.FillEllipse(Brushes.Red, a.X - 3, a.Y - 3, 6, 6);
+                            PointF a = face[j];
+                            PointF b = face[(j + 1) % face.Length];
+                            if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
+                            {
+                                g.DrawLine(pen, a, b);
+                                g.FillEllipse(Brushes.Red, a.X - 3, a.Y - 3, 6, 6);
+                            }
                         }
                     }
                 }
@@ -235,31 +241,36 @@ namespace CS332_Lab8
 
         private void TetrahedronToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            poly = Polyhedron.CreateTetrahedron();
+            polyhedrons.Add(Polyhedron.CreateTetrahedron());
+            polyInd++;
             panel1.Invalidate();
         }
 
         private void HexahedronToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            poly = Polyhedron.CreateHexahedron();
+            polyhedrons.Add(Polyhedron.CreateHexahedron());
+            polyInd++;
             panel1.Invalidate();
         }
 
         private void OctahedronToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            poly = Polyhedron.CreateOctahedron();
+            polyhedrons.Add(Polyhedron.CreateOctahedron());
+            polyInd++;
             panel1.Invalidate();
         }
 
         private void IcosahedronToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            poly = Polyhedron.CreateIcosahedron();
+            polyhedrons.Add(Polyhedron.CreateIcosahedron());
+            polyInd++;
             panel1.Invalidate();
         }
 
         private void DodecahedronToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            poly = Polyhedron.CreateDodecahedron();
+            polyhedrons.Add(Polyhedron.CreateDodecahedron());
+            polyInd++;
             panel1.Invalidate();
         }
 
@@ -279,47 +290,47 @@ namespace CS332_Lab8
             if (!(scaleFactor > 0.1f && scaleFactor < 10.0f)) return;
 
             if (scalingMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), polyhedrons[polyInd]);
             else if (scalingXMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, 1, 1), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, 1, 1), polyhedrons[polyInd]);
             else if (scalingYMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, scaleFactor, 1), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(1, scaleFactor, 1), polyhedrons[polyInd]);
             else if (scalingZMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, 1, scaleFactor), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(1, 1, scaleFactor), polyhedrons[polyInd]);
             else if (rotatingXMode)
-                poly = Transform.Apply(
+                polyhedrons[polyInd] = Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
-                        poly.GetCenter(),
+                        polyhedrons[polyInd].GetCenter(),
                         new Vector3(1, 0, 0),
                         deltaX * 0.01f),
-                    poly);
+                    polyhedrons[polyInd]);
             else if (rotatingYMode)
-                poly = Transform.Apply(
+                polyhedrons[polyInd] = Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
-                        poly.GetCenter(),
+                        polyhedrons[polyInd].GetCenter(),
                         new Vector3(0, 1, 0),
                         deltaX * 0.01f),
-                    poly);
+                    polyhedrons[polyInd]);
             else if (rotatingZMode)
-                poly = Transform.Apply(
+                polyhedrons[polyInd] = Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
-                        poly.GetCenter(),
+                        polyhedrons[polyInd].GetCenter(),
                         new Vector3(0, 0, 1),
                         deltaX * 0.01f),
-                    poly);
+                    polyhedrons[polyInd]);
             else if (translatingXMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(deltaX * 0.01f, 0, 0), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateTranslationMatrix(deltaX * 0.01f, 0, 0), polyhedrons[polyInd]);
             else if (translatingYMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(0, deltaX * 0.01f, 0), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateTranslationMatrix(0, deltaX * 0.01f, 0), polyhedrons[polyInd]);
             else if (translatingZMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(0, 0, deltaX * 0.01f), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateTranslationMatrix(0, 0, deltaX * 0.01f), polyhedrons[polyInd]);
             else if (rotatingCustomAxisMode)
-                poly = Transform.Apply(
+                polyhedrons[polyInd] = Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
                         linePoint,
                         lineVector,
                         deltaX * 0.01f),
-                    poly);
+                    polyhedrons[polyInd]);
 
 
         }
@@ -425,34 +436,34 @@ namespace CS332_Lab8
 
         private void refclectXYbutton_Click(object sender, EventArgs e)
         {
-            if (poly != null)
+            if (polyhedrons[polyInd] != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, 1, -1), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(1, 1, -1), polyhedrons[polyInd]);
                 panel1.Invalidate();
             }
         }
 
         private void refclectXZbutton_Click(object sender, EventArgs e)
         {
-            if (poly != null)
+            if (polyhedrons[polyInd] != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, -1, 1), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(1, -1, 1), polyhedrons[polyInd]);
                 panel1.Invalidate();
             }
         }
 
         private void refclectYZbutton_Click(object sender, EventArgs e)
         {
-            if (poly != null)
+            if (polyhedrons[polyInd] != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(-1, 1, 1), poly);
+                polyhedrons[polyInd] = Transform.Apply(Transform.CreateScaleMatrix(-1, 1, 1), polyhedrons[polyInd]);
                 panel1.Invalidate();
             }
         }
 
         private void saveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (poly is null) return;
+            if (polyhedrons[polyInd] is null) return;
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
@@ -461,7 +472,7 @@ namespace CS332_Lab8
                 saveFileDialog.AddExtension = true;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    poly.Save(saveFileDialog.FileName);
+                    polyhedrons[polyInd].Save(saveFileDialog.FileName);
                 }
             }
         }
@@ -473,7 +484,7 @@ namespace CS332_Lab8
                 openFileDialog.Filter = "Wavefront OBJ (*.obj)|*.obj|All Files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    poly = Polyhedron.Load(openFileDialog.FileName);
+                    polyhedrons[polyInd] = Polyhedron.Load(openFileDialog.FileName);
                     panel1.Invalidate();
                 }
             }
@@ -484,7 +495,7 @@ namespace CS332_Lab8
             RotationFigureForm form = new RotationFigureForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                poly = new Polyhedron(form.poly);
+                polyhedrons[polyInd] = new Polyhedron(form.poly);
                 form.Close();
                 panel1.Invalidate();
             }
@@ -496,7 +507,7 @@ namespace CS332_Lab8
             PlotSettingsForm form = new PlotSettingsForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                poly = new Polyhedron(form.poly);
+                polyhedrons[polyInd] = new Polyhedron(form.poly);
                 form.Close();
                 panel1.Invalidate();
             }
@@ -519,6 +530,12 @@ namespace CS332_Lab8
         private void setCamersRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             setCam = setCamersRadioButton.Checked;
+        }
+
+        private void currentPhigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetPhigure form = new SetPhigure(polyhedrons, this);
+            form.Show();
         }
     }
 }

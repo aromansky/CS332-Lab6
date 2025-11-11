@@ -183,8 +183,9 @@
                 Face transformedFace = new Face(f.Edges.Select(x => Apply(m, x)).ToList());
                 transformedFaces.Add(transformedFace);
             }
-
-            return new Polyhedron(transformedFaces);
+            Polyhedron poly = new Polyhedron(transformedFaces);
+            poly.Name = p.Name;
+            return poly;
         }
     }
 }
