@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CS332_Lab7;
+using Geometry;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Geometry;
-using CS332_Lab7;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace CS332_Lab8
 {
     public partial class Scene : Form
@@ -22,6 +23,9 @@ namespace CS332_Lab8
 
         private Point3D linePoint = new Point3D(0, 0, 0);
         private Vector3 lineVector;
+
+        bool setPoly = false;
+        bool setCam = false;
 
         private bool scalingMode = false;
         private bool scalingXMode = false;
@@ -39,10 +43,17 @@ namespace CS332_Lab8
 
         private bool rotatingCustomAxisMode = false;
 
+        private int deltaX = 0;
 
         public Scene()
         {
             InitializeComponent();
+
+            cam = new Camera(
+                new Point3D(5f, 5f, 5f),
+                new Point3D(0, 0, 0),
+                panel1.Width, panel1.Height
+                );
 
             typeof(Panel).InvokeMember("DoubleBuffered",
                 System.Reflection.BindingFlags.SetProperty |
@@ -56,11 +67,7 @@ namespace CS332_Lab8
                 ?.SetValue(panel1, true, null);
 
 
-            cam = new Camera(
-                new Point3D(0f, 0f, -5f),
-                60f,
-                panel1.Width,
-                panel1.Height);
+
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -79,11 +86,16 @@ namespace CS332_Lab8
         {
             if (_isDragging && e.Button == MouseButtons.Left)
             {
-                int deltaX = e.X - _prevMousePos.X;
+                deltaX = e.X - _prevMousePos.X;
 
-                if (poly != null)
+                if (setPoly && poly != null)
                 {
-                    PolyhedronProcessing(deltaX);
+                    PolyhedronProcessing();
+                }
+
+                if (setCam)
+                {
+                    CameraProcessing();
                 }
 
 
@@ -109,10 +121,6 @@ namespace CS332_Lab8
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            cam.ScreenWidth = panel1.Width;
-            cam.ScreenHeight = panel1.Height;
-            cam.SetMode(cam.Mode);
-
             var g = e.Graphics;
             g.Clear(SystemColors.ActiveBorder);
 
@@ -123,7 +131,7 @@ namespace CS332_Lab8
             var yAxisEnd = new Point3D(0, axisLength, 0);
             var zAxisEnd = new Point3D(0, 0, axisLength);
 
-            var axes = new List<List<PointF>>
+            var axes = new PointF[][]
             {
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }))[0],
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }))[0],
@@ -134,9 +142,12 @@ namespace CS332_Lab8
             using (var penY = new Pen(Color.Green, 2f))
             using (var penZ = new Pen(Color.Blue, 2f))
             {
-                g.DrawLine(penX, axes[0][0], axes[0][1]);
-                g.DrawLine(penY, axes[1][0], axes[1][1]);
-                g.DrawLine(penZ, axes[2][0], axes[2][1]);
+                if (axes[0].Length >= 2)
+                    g.DrawLine(penX, axes[0][0], axes[0][1]);
+                if (axes[1].Length >= 2)
+                    g.DrawLine(penY, axes[1][0], axes[1][1]);
+                if (axes[2].Length >= 2)
+                    g.DrawLine(penZ, axes[2][0], axes[2][1]);
             }
 
             // === ОСЬ ВРАЩЕНИЯ (если выбрана пользовательская) ===
@@ -171,15 +182,17 @@ namespace CS332_Lab8
             {
                 foreach (var face in projectedFaces)
                 {
-                    for (int i = 0; i < face.Count; i++)
+                    if (face == null)
+                        continue;
+
+                    for (int i = 0; i < face.Length; i++)
                     {
                         var a = face[i];
-                        var b = face[(i + 1) % face.Count];
+                        var b = face[(i + 1) % face.Length];
                         if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
                         {
                             g.DrawLine(pen, a, b);
                             g.FillEllipse(Brushes.Red, a.X - 3, a.Y - 3, 6, 6);
-                            g.FillEllipse(Brushes.Red, b.X - 3, b.Y - 3, 6, 6);
                         }
                     }
                 }
@@ -195,24 +208,28 @@ namespace CS332_Lab8
         private void PerspectiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cam.SetMode(ProjectionMode.Perspective);
+            cam.SetPosition(new Point3D(5, 5, 5));
             panel1.Invalidate();
         }
 
         private void TrimetricToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cam.SetMode(ProjectionMode.Trimetric);
+            cam.SetPosition(new Point3D(5, 5, 5));
             panel1.Invalidate();
         }
 
         private void DimetricToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cam.SetMode(ProjectionMode.Dimetric);
+            cam.SetPosition(new Point3D(5, 5, 5));
             panel1.Invalidate();
         }
 
         private void IsometricToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cam.SetMode(ProjectionMode.Isometric);
+            cam.SetPosition(new Point3D(5, 5, 5));
             panel1.Invalidate();
         }
 
@@ -246,7 +263,17 @@ namespace CS332_Lab8
             panel1.Invalidate();
         }
 
-        private void PolyhedronProcessing(int deltaX)
+        private void CameraProcessing()
+        {
+            if (rotatingXMode)
+                cam.SetPosition(Transform.Apply(Transform.CreateRotationAroundXMatrix(deltaX * 0.01f), cam.Position));
+            else if (rotatingYMode)
+                cam.SetPosition(Transform.Apply(Transform.CreateRotationAroundYMatrix(deltaX * 0.01f), cam.Position));
+            else if (rotatingZMode)
+                cam.SetPosition(Transform.Apply(Transform.CreateRotationAroundZMatrix(deltaX * 0.01f), cam.Position));
+        }
+
+        private void PolyhedronProcessing()
         {
             float scaleFactor = 1.0f + deltaX * 0.01f;
             if (!(scaleFactor > 0.1f && scaleFactor < 10.0f)) return;
@@ -293,6 +320,7 @@ namespace CS332_Lab8
                         lineVector,
                         deltaX * 0.01f),
                     poly);
+
 
         }
 
@@ -472,6 +500,25 @@ namespace CS332_Lab8
                 form.Close();
                 panel1.Invalidate();
             }
+        }
+
+        private void Scene_SizeChanged(object sender, EventArgs e)
+        {
+            if (cam == null) return;
+
+            cam.ScreenWidth = panel1.Width;
+            cam.ScreenHeight = panel1.Height;
+            panel1.Invalidate();
+        }
+
+        private void setPolyhedronRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            setPoly = setPolyhedronRadioButton.Checked;
+        }
+
+        private void setCamersRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            setCam = setCamersRadioButton.Checked;
         }
     }
 }

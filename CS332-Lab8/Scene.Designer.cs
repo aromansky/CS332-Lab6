@@ -62,6 +62,7 @@
             IcosahedronToolStripMenuItem = new ToolStripMenuItem();
             DodecahedronToolStripMenuItem = new ToolStripMenuItem();
             rotationFigureToolStripMenuItem = new ToolStripMenuItem();
+            plotToolStripMenuItem = new ToolStripMenuItem();
             проекцияToolStripMenuItem = new ToolStripMenuItem();
             PerspectiveToolStripMenuItem = new ToolStripMenuItem();
             TrimetricToolStripMenuItem = new ToolStripMenuItem();
@@ -85,7 +86,9 @@
             refclectXZbutton = new Button();
             refclectYZbutton = new Button();
             openFileDialog1 = new OpenFileDialog();
-            plotToolStripMenuItem = new ToolStripMenuItem();
+            groupBox1 = new GroupBox();
+            setCamersRadioButton = new RadioButton();
+            setPolyhedronRadioButton = new RadioButton();
             ((System.ComponentModel.ISupportInitialize)lineStartXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartYNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartZNumericUpDown).BeginInit();
@@ -97,16 +100,16 @@
             ((System.ComponentModel.ISupportInitialize)lineEndYNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineEndXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineEndZNumericUpDown).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.BackColor = SystemColors.ActiveBorder;
-            panel1.Location = new Point(10, 32);
-            panel1.Margin = new Padding(3, 2, 3, 2);
+            panel1.Location = new Point(11, 43);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1337, 748);
+            panel1.Size = new Size(1528, 997);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             panel1.MouseDown += panel1_MouseDown;
@@ -117,10 +120,9 @@
             // 
             RotateAboutXRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RotateAboutXRadioButton.AutoSize = true;
-            RotateAboutXRadioButton.Location = new Point(1375, 166);
-            RotateAboutXRadioButton.Margin = new Padding(3, 2, 3, 2);
+            RotateAboutXRadioButton.Location = new Point(1565, 278);
             RotateAboutXRadioButton.Name = "RotateAboutXRadioButton";
-            RotateAboutXRadioButton.Size = new Size(123, 19);
+            RotateAboutXRadioButton.Size = new Size(155, 24);
             RotateAboutXRadioButton.TabIndex = 7;
             RotateAboutXRadioButton.Text = "Поворот по оси X";
             RotateAboutXRadioButton.UseVisualStyleBackColor = true;
@@ -130,10 +132,9 @@
             // 
             RotateAboutYRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RotateAboutYRadioButton.AutoSize = true;
-            RotateAboutYRadioButton.Location = new Point(1375, 190);
-            RotateAboutYRadioButton.Margin = new Padding(3, 2, 3, 2);
+            RotateAboutYRadioButton.Location = new Point(1566, 310);
             RotateAboutYRadioButton.Name = "RotateAboutYRadioButton";
-            RotateAboutYRadioButton.Size = new Size(123, 19);
+            RotateAboutYRadioButton.Size = new Size(154, 24);
             RotateAboutYRadioButton.TabIndex = 8;
             RotateAboutYRadioButton.Text = "Поворот по оси Y";
             RotateAboutYRadioButton.UseVisualStyleBackColor = true;
@@ -143,10 +144,9 @@
             // 
             RotateAboutZRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RotateAboutZRadioButton.AutoSize = true;
-            RotateAboutZRadioButton.Location = new Point(1375, 216);
-            RotateAboutZRadioButton.Margin = new Padding(3, 2, 3, 2);
+            RotateAboutZRadioButton.Location = new Point(1565, 345);
             RotateAboutZRadioButton.Name = "RotateAboutZRadioButton";
-            RotateAboutZRadioButton.Size = new Size(123, 19);
+            RotateAboutZRadioButton.Size = new Size(155, 24);
             RotateAboutZRadioButton.TabIndex = 9;
             RotateAboutZRadioButton.Text = "Поворот по оси Z";
             RotateAboutZRadioButton.UseVisualStyleBackColor = true;
@@ -156,9 +156,9 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1376, 249);
+            label1.Location = new Point(1581, 389);
             label1.Name = "label1";
-            label1.Size = new Size(181, 15);
+            label1.Size = new Size(230, 20);
             label1.TabIndex = 10;
             label1.Text = "Поворот относительно прямой";
             // 
@@ -166,9 +166,9 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new Point(1378, 278);
+            label2.Location = new Point(1583, 428);
             label2.Name = "label2";
-            label2.Size = new Size(121, 15);
+            label2.Size = new Size(153, 20);
             label2.TabIndex = 11;
             label2.Text = "Координаты точки A";
             // 
@@ -176,9 +176,9 @@
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new Point(1378, 326);
+            label3.Location = new Point(1583, 492);
             label3.Name = "label3";
-            label3.Size = new Size(121, 15);
+            label3.Size = new Size(155, 20);
             label3.TabIndex = 12;
             label3.Text = "Координаты вектора";
             // 
@@ -186,10 +186,9 @@
             // 
             customRotatingRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             customRotatingRadioButton.AutoSize = true;
-            customRotatingRadioButton.Location = new Point(1381, 424);
-            customRotatingRadioButton.Margin = new Padding(3, 2, 3, 2);
+            customRotatingRadioButton.Location = new Point(1564, 622);
             customRotatingRadioButton.Name = "customRotatingRadioButton";
-            customRotatingRadioButton.Size = new Size(191, 19);
+            customRotatingRadioButton.Size = new Size(240, 24);
             customRotatingRadioButton.TabIndex = 13;
             customRotatingRadioButton.Text = "Поворот относительно линии";
             customRotatingRadioButton.UseVisualStyleBackColor = true;
@@ -200,12 +199,11 @@
             lineStartXNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineStartXNumericUpDown.DecimalPlaces = 2;
             lineStartXNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineStartXNumericUpDown.Location = new Point(1399, 300);
-            lineStartXNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineStartXNumericUpDown.Location = new Point(1607, 457);
             lineStartXNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineStartXNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineStartXNumericUpDown.Name = "lineStartXNumericUpDown";
-            lineStartXNumericUpDown.Size = new Size(53, 23);
+            lineStartXNumericUpDown.Size = new Size(61, 27);
             lineStartXNumericUpDown.TabIndex = 14;
             lineStartXNumericUpDown.ValueChanged += lineStartNumericUpDown_ValueChanged;
             // 
@@ -213,9 +211,9 @@
             // 
             label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label4.AutoSize = true;
-            label4.Location = new Point(1378, 302);
+            label4.Location = new Point(1583, 460);
             label4.Name = "label4";
-            label4.Size = new Size(17, 15);
+            label4.Size = new Size(21, 20);
             label4.TabIndex = 15;
             label4.Text = "X:";
             // 
@@ -223,9 +221,9 @@
             // 
             label5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label5.AutoSize = true;
-            label5.Location = new Point(1458, 302);
+            label5.Location = new Point(1674, 460);
             label5.Name = "label5";
-            label5.Size = new Size(17, 15);
+            label5.Size = new Size(20, 20);
             label5.TabIndex = 17;
             label5.Text = "Y:";
             // 
@@ -234,12 +232,11 @@
             lineStartYNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineStartYNumericUpDown.DecimalPlaces = 2;
             lineStartYNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineStartYNumericUpDown.Location = new Point(1479, 300);
-            lineStartYNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineStartYNumericUpDown.Location = new Point(1698, 457);
             lineStartYNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineStartYNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineStartYNumericUpDown.Name = "lineStartYNumericUpDown";
-            lineStartYNumericUpDown.Size = new Size(53, 23);
+            lineStartYNumericUpDown.Size = new Size(61, 27);
             lineStartYNumericUpDown.TabIndex = 16;
             lineStartYNumericUpDown.ValueChanged += lineStartNumericUpDown_ValueChanged;
             // 
@@ -247,9 +244,9 @@
             // 
             label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Location = new Point(1531, 302);
+            label6.Location = new Point(1758, 460);
             label6.Name = "label6";
-            label6.Size = new Size(17, 15);
+            label6.Size = new Size(21, 20);
             label6.TabIndex = 19;
             label6.Text = "Z:";
             // 
@@ -258,12 +255,11 @@
             lineStartZNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineStartZNumericUpDown.DecimalPlaces = 2;
             lineStartZNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineStartZNumericUpDown.Location = new Point(1552, 300);
-            lineStartZNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineStartZNumericUpDown.Location = new Point(1782, 457);
             lineStartZNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineStartZNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineStartZNumericUpDown.Name = "lineStartZNumericUpDown";
-            lineStartZNumericUpDown.Size = new Size(53, 23);
+            lineStartZNumericUpDown.Size = new Size(61, 27);
             lineStartZNumericUpDown.TabIndex = 18;
             lineStartZNumericUpDown.ValueChanged += lineStartNumericUpDown_ValueChanged;
             // 
@@ -271,9 +267,9 @@
             // 
             label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label7.AutoSize = true;
-            label7.Location = new Point(1531, 346);
+            label7.Location = new Point(1758, 518);
             label7.Name = "label7";
-            label7.Size = new Size(17, 15);
+            label7.Size = new Size(21, 20);
             label7.TabIndex = 25;
             label7.Text = "Z:";
             // 
@@ -282,12 +278,11 @@
             lineVecZNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineVecZNumericUpDown.DecimalPlaces = 2;
             lineVecZNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineVecZNumericUpDown.Location = new Point(1552, 344);
-            lineVecZNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineVecZNumericUpDown.Location = new Point(1782, 516);
             lineVecZNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineVecZNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineVecZNumericUpDown.Name = "lineVecZNumericUpDown";
-            lineVecZNumericUpDown.Size = new Size(53, 23);
+            lineVecZNumericUpDown.Size = new Size(61, 27);
             lineVecZNumericUpDown.TabIndex = 24;
             lineVecZNumericUpDown.ValueChanged += lineVecNumericUpDown_ValueChanged;
             // 
@@ -295,9 +290,9 @@
             // 
             label8.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label8.AutoSize = true;
-            label8.Location = new Point(1458, 346);
+            label8.Location = new Point(1674, 518);
             label8.Name = "label8";
-            label8.Size = new Size(17, 15);
+            label8.Size = new Size(20, 20);
             label8.TabIndex = 23;
             label8.Text = "Y:";
             // 
@@ -306,12 +301,11 @@
             lineVecYNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineVecYNumericUpDown.DecimalPlaces = 2;
             lineVecYNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineVecYNumericUpDown.Location = new Point(1479, 344);
-            lineVecYNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineVecYNumericUpDown.Location = new Point(1698, 516);
             lineVecYNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineVecYNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineVecYNumericUpDown.Name = "lineVecYNumericUpDown";
-            lineVecYNumericUpDown.Size = new Size(53, 23);
+            lineVecYNumericUpDown.Size = new Size(61, 27);
             lineVecYNumericUpDown.TabIndex = 22;
             lineVecYNumericUpDown.ValueChanged += lineVecNumericUpDown_ValueChanged;
             // 
@@ -319,9 +313,9 @@
             // 
             label9.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label9.AutoSize = true;
-            label9.Location = new Point(1378, 346);
+            label9.Location = new Point(1583, 518);
             label9.Name = "label9";
-            label9.Size = new Size(17, 15);
+            label9.Size = new Size(21, 20);
             label9.TabIndex = 21;
             label9.Text = "X:";
             // 
@@ -330,12 +324,11 @@
             lineVecXNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineVecXNumericUpDown.DecimalPlaces = 2;
             lineVecXNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineVecXNumericUpDown.Location = new Point(1399, 344);
-            lineVecXNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineVecXNumericUpDown.Location = new Point(1607, 516);
             lineVecXNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineVecXNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineVecXNumericUpDown.Name = "lineVecXNumericUpDown";
-            lineVecXNumericUpDown.Size = new Size(53, 23);
+            lineVecXNumericUpDown.Size = new Size(61, 27);
             lineVecXNumericUpDown.TabIndex = 20;
             lineVecXNumericUpDown.ValueChanged += lineVecNumericUpDown_ValueChanged;
             // 
@@ -344,12 +337,12 @@
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { фигурыToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(118, 26);
+            contextMenuStrip1.Size = new Size(132, 28);
             // 
             // фигурыToolStripMenuItem
             // 
             фигурыToolStripMenuItem.Name = "фигурыToolStripMenuItem";
-            фигурыToolStripMenuItem.Size = new Size(117, 22);
+            фигурыToolStripMenuItem.Size = new Size(131, 24);
             фигурыToolStripMenuItem.Text = "Фигуры";
             // 
             // menuStrip1
@@ -358,8 +351,8 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, фигурыToolStripMenuItem1, проекцияToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(4, 2, 0, 2);
-            menuStrip1.Size = new Size(1627, 24);
+            menuStrip1.Padding = new Padding(5, 3, 0, 3);
+            menuStrip1.Size = new Size(1859, 30);
             menuStrip1.TabIndex = 27;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -367,20 +360,20 @@
             // 
             файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, loadToolStripMenuItem });
             файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            файлToolStripMenuItem.Size = new Size(48, 20);
+            файлToolStripMenuItem.Size = new Size(59, 24);
             файлToolStripMenuItem.Text = "Файл";
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(132, 22);
+            saveToolStripMenuItem.Size = new Size(166, 26);
             saveToolStripMenuItem.Text = "Сохранить";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click_1;
             // 
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(132, 22);
+            loadToolStripMenuItem.Size = new Size(166, 26);
             loadToolStripMenuItem.Text = "Загрузить";
             loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
@@ -388,83 +381,90 @@
             // 
             фигурыToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { TetrahedronToolStripMenuItem, HexahedronToolStripMenuItem, OctahedronToolStripMenuItem, IcosahedronToolStripMenuItem, DodecahedronToolStripMenuItem, rotationFigureToolStripMenuItem, plotToolStripMenuItem });
             фигурыToolStripMenuItem1.Name = "фигурыToolStripMenuItem1";
-            фигурыToolStripMenuItem1.Size = new Size(62, 20);
+            фигурыToolStripMenuItem1.Size = new Size(76, 24);
             фигурыToolStripMenuItem1.Text = "Фигуры";
             // 
             // TetrahedronToolStripMenuItem
             // 
             TetrahedronToolStripMenuItem.Name = "TetrahedronToolStripMenuItem";
-            TetrahedronToolStripMenuItem.Size = new Size(213, 22);
+            TetrahedronToolStripMenuItem.Size = new Size(269, 26);
             TetrahedronToolStripMenuItem.Text = "Тетраэдр";
             TetrahedronToolStripMenuItem.Click += TetrahedronToolStripMenuItem_Click;
             // 
             // HexahedronToolStripMenuItem
             // 
             HexahedronToolStripMenuItem.Name = "HexahedronToolStripMenuItem";
-            HexahedronToolStripMenuItem.Size = new Size(213, 22);
+            HexahedronToolStripMenuItem.Size = new Size(269, 26);
             HexahedronToolStripMenuItem.Text = "Гексаэдр ";
             HexahedronToolStripMenuItem.Click += HexahedronToolStripMenuItem_Click;
             // 
             // OctahedronToolStripMenuItem
             // 
             OctahedronToolStripMenuItem.Name = "OctahedronToolStripMenuItem";
-            OctahedronToolStripMenuItem.Size = new Size(213, 22);
+            OctahedronToolStripMenuItem.Size = new Size(269, 26);
             OctahedronToolStripMenuItem.Text = "Октаэдр";
             OctahedronToolStripMenuItem.Click += OctahedronToolStripMenuItem_Click;
             // 
             // IcosahedronToolStripMenuItem
             // 
             IcosahedronToolStripMenuItem.Name = "IcosahedronToolStripMenuItem";
-            IcosahedronToolStripMenuItem.Size = new Size(213, 22);
+            IcosahedronToolStripMenuItem.Size = new Size(269, 26);
             IcosahedronToolStripMenuItem.Text = "Икосаэдр";
             IcosahedronToolStripMenuItem.Click += IcosahedronToolStripMenuItem_Click;
             // 
             // DodecahedronToolStripMenuItem
             // 
             DodecahedronToolStripMenuItem.Name = "DodecahedronToolStripMenuItem";
-            DodecahedronToolStripMenuItem.Size = new Size(213, 22);
+            DodecahedronToolStripMenuItem.Size = new Size(269, 26);
             DodecahedronToolStripMenuItem.Text = "Додекаэдр";
             DodecahedronToolStripMenuItem.Click += DodecahedronToolStripMenuItem_Click;
             // 
             // rotationFigureToolStripMenuItem
             // 
             rotationFigureToolStripMenuItem.Name = "rotationFigureToolStripMenuItem";
-            rotationFigureToolStripMenuItem.Size = new Size(213, 22);
+            rotationFigureToolStripMenuItem.Size = new Size(269, 26);
             rotationFigureToolStripMenuItem.Text = "Фигура вращения";
             rotationFigureToolStripMenuItem.Click += rotationFigureToolStripMenuItem_Click;
+            // 
+            // plotToolStripMenuItem
+            // 
+            plotToolStripMenuItem.Name = "plotToolStripMenuItem";
+            plotToolStripMenuItem.Size = new Size(269, 26);
+            plotToolStripMenuItem.Text = "График двух переменных";
+            plotToolStripMenuItem.Click += plotToolStripMenuItem_Click;
             // 
             // проекцияToolStripMenuItem
             // 
             проекцияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { PerspectiveToolStripMenuItem, TrimetricToolStripMenuItem, DimetricToolStripMenuItem, IsometricToolStripMenuItem });
             проекцияToolStripMenuItem.Name = "проекцияToolStripMenuItem";
-            проекцияToolStripMenuItem.Size = new Size(74, 20);
+            проекцияToolStripMenuItem.Size = new Size(93, 24);
             проекцияToolStripMenuItem.Text = "Проекция";
             // 
             // PerspectiveToolStripMenuItem
             // 
             PerspectiveToolStripMenuItem.Name = "PerspectiveToolStripMenuItem";
-            PerspectiveToolStripMenuItem.Size = new Size(166, 22);
+            PerspectiveToolStripMenuItem.Size = new Size(224, 26);
             PerspectiveToolStripMenuItem.Text = "Перспективная ";
             PerspectiveToolStripMenuItem.Click += PerspectiveToolStripMenuItem_Click;
             // 
             // TrimetricToolStripMenuItem
             // 
             TrimetricToolStripMenuItem.Name = "TrimetricToolStripMenuItem";
-            TrimetricToolStripMenuItem.Size = new Size(166, 22);
+            TrimetricToolStripMenuItem.Size = new Size(224, 26);
             TrimetricToolStripMenuItem.Text = "Триметрическая";
             TrimetricToolStripMenuItem.Click += TrimetricToolStripMenuItem_Click;
             // 
             // DimetricToolStripMenuItem
             // 
             DimetricToolStripMenuItem.Name = "DimetricToolStripMenuItem";
-            DimetricToolStripMenuItem.Size = new Size(166, 22);
+            DimetricToolStripMenuItem.Size = new Size(224, 26);
             DimetricToolStripMenuItem.Text = "Диметрическая";
             DimetricToolStripMenuItem.Click += DimetricToolStripMenuItem_Click;
             // 
             // IsometricToolStripMenuItem
             // 
             IsometricToolStripMenuItem.Name = "IsometricToolStripMenuItem";
-            IsometricToolStripMenuItem.Size = new Size(166, 22);
+            IsometricToolStripMenuItem.Size = new Size(224, 26);
             IsometricToolStripMenuItem.Text = "Изометрическая";
             IsometricToolStripMenuItem.Click += IsometricToolStripMenuItem_Click;
             // 
@@ -472,10 +472,9 @@
             // 
             ScaleRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ScaleRadioButton.AutoSize = true;
-            ScaleRadioButton.Location = new Point(1379, 32);
-            ScaleRadioButton.Margin = new Padding(3, 2, 3, 2);
+            ScaleRadioButton.Location = new Point(1565, 134);
             ScaleRadioButton.Name = "ScaleRadioButton";
-            ScaleRadioButton.Size = new Size(196, 19);
+            ScaleRadioButton.Size = new Size(246, 24);
             ScaleRadioButton.TabIndex = 28;
             ScaleRadioButton.Text = "Масштабирование отн. центра";
             ScaleRadioButton.UseVisualStyleBackColor = true;
@@ -485,10 +484,9 @@
             // 
             TranslateAboutZRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TranslateAboutZRadioButton.AutoSize = true;
-            TranslateAboutZRadioButton.Location = new Point(1380, 524);
-            TranslateAboutZRadioButton.Margin = new Padding(3, 2, 3, 2);
+            TranslateAboutZRadioButton.Location = new Point(1564, 734);
             TranslateAboutZRadioButton.Name = "TranslateAboutZRadioButton";
-            TranslateAboutZRadioButton.Size = new Size(135, 19);
+            TranslateAboutZRadioButton.Size = new Size(168, 24);
             TranslateAboutZRadioButton.TabIndex = 31;
             TranslateAboutZRadioButton.Text = "Смещение по оси Z";
             TranslateAboutZRadioButton.UseVisualStyleBackColor = true;
@@ -498,10 +496,9 @@
             // 
             TranslateAboutYRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TranslateAboutYRadioButton.AutoSize = true;
-            TranslateAboutYRadioButton.Location = new Point(1380, 499);
-            TranslateAboutYRadioButton.Margin = new Padding(3, 2, 3, 2);
+            TranslateAboutYRadioButton.Location = new Point(1565, 700);
             TranslateAboutYRadioButton.Name = "TranslateAboutYRadioButton";
-            TranslateAboutYRadioButton.Size = new Size(135, 19);
+            TranslateAboutYRadioButton.Size = new Size(167, 24);
             TranslateAboutYRadioButton.TabIndex = 30;
             TranslateAboutYRadioButton.Text = "Смещение по оси Y";
             TranslateAboutYRadioButton.UseVisualStyleBackColor = true;
@@ -511,10 +508,9 @@
             // 
             TranslateAboutXRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             TranslateAboutXRadioButton.AutoSize = true;
-            TranslateAboutXRadioButton.Location = new Point(1380, 474);
-            TranslateAboutXRadioButton.Margin = new Padding(3, 2, 3, 2);
+            TranslateAboutXRadioButton.Location = new Point(1564, 667);
             TranslateAboutXRadioButton.Name = "TranslateAboutXRadioButton";
-            TranslateAboutXRadioButton.Size = new Size(135, 19);
+            TranslateAboutXRadioButton.Size = new Size(168, 24);
             TranslateAboutXRadioButton.TabIndex = 29;
             TranslateAboutXRadioButton.Text = "Смещение по оси X";
             TranslateAboutXRadioButton.UseVisualStyleBackColor = true;
@@ -524,10 +520,9 @@
             // 
             ScaleAboutXRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ScaleAboutXRadioButton.AutoSize = true;
-            ScaleAboutXRadioButton.Location = new Point(1380, 74);
-            ScaleAboutXRadioButton.Margin = new Padding(3, 2, 3, 2);
+            ScaleAboutXRadioButton.Location = new Point(1565, 164);
             ScaleAboutXRadioButton.Name = "ScaleAboutXRadioButton";
-            ScaleAboutXRadioButton.Size = new Size(188, 19);
+            ScaleAboutXRadioButton.Size = new Size(235, 24);
             ScaleAboutXRadioButton.TabIndex = 32;
             ScaleAboutXRadioButton.Text = "Масштабирование отн. оси X";
             ScaleAboutXRadioButton.UseVisualStyleBackColor = true;
@@ -537,10 +532,9 @@
             // 
             ScaleAboutYRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ScaleAboutYRadioButton.AutoSize = true;
-            ScaleAboutYRadioButton.Location = new Point(1379, 97);
-            ScaleAboutYRadioButton.Margin = new Padding(3, 2, 3, 2);
+            ScaleAboutYRadioButton.Location = new Point(1565, 194);
             ScaleAboutYRadioButton.Name = "ScaleAboutYRadioButton";
-            ScaleAboutYRadioButton.Size = new Size(188, 19);
+            ScaleAboutYRadioButton.Size = new Size(234, 24);
             ScaleAboutYRadioButton.TabIndex = 33;
             ScaleAboutYRadioButton.Text = "Масштабирование отн. оси Y";
             ScaleAboutYRadioButton.UseVisualStyleBackColor = true;
@@ -550,10 +544,9 @@
             // 
             ScaleAboutZRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ScaleAboutZRadioButton.AutoSize = true;
-            ScaleAboutZRadioButton.Location = new Point(1380, 121);
-            ScaleAboutZRadioButton.Margin = new Padding(3, 2, 3, 2);
+            ScaleAboutZRadioButton.Location = new Point(1564, 224);
             ScaleAboutZRadioButton.Name = "ScaleAboutZRadioButton";
-            ScaleAboutZRadioButton.Size = new Size(188, 19);
+            ScaleAboutZRadioButton.Size = new Size(235, 24);
             ScaleAboutZRadioButton.TabIndex = 34;
             ScaleAboutZRadioButton.Text = "Масштабирование отн. оси Z";
             ScaleAboutZRadioButton.UseVisualStyleBackColor = true;
@@ -563,9 +556,9 @@
             // 
             label10.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label10.AutoSize = true;
-            label10.Location = new Point(1535, 389);
+            label10.Location = new Point(1762, 576);
             label10.Name = "label10";
-            label10.Size = new Size(17, 15);
+            label10.Size = new Size(21, 20);
             label10.TabIndex = 40;
             label10.Text = "Z:";
             // 
@@ -573,9 +566,9 @@
             // 
             label11.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label11.AutoSize = true;
-            label11.Location = new Point(1461, 389);
+            label11.Location = new Point(1678, 576);
             label11.Name = "label11";
-            label11.Size = new Size(17, 15);
+            label11.Size = new Size(20, 20);
             label11.TabIndex = 39;
             label11.Text = "Y:";
             // 
@@ -584,12 +577,11 @@
             lineEndYNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineEndYNumericUpDown.DecimalPlaces = 2;
             lineEndYNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineEndYNumericUpDown.Location = new Point(1482, 386);
-            lineEndYNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineEndYNumericUpDown.Location = new Point(1702, 572);
             lineEndYNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineEndYNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineEndYNumericUpDown.Name = "lineEndYNumericUpDown";
-            lineEndYNumericUpDown.Size = new Size(53, 23);
+            lineEndYNumericUpDown.Size = new Size(61, 27);
             lineEndYNumericUpDown.TabIndex = 38;
             lineEndYNumericUpDown.ValueChanged += lineEndNumericUpDown_ValueChanged;
             // 
@@ -597,9 +589,9 @@
             // 
             label12.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label12.AutoSize = true;
-            label12.Location = new Point(1382, 389);
+            label12.Location = new Point(1587, 576);
             label12.Name = "label12";
-            label12.Size = new Size(17, 15);
+            label12.Size = new Size(21, 20);
             label12.TabIndex = 37;
             label12.Text = "X:";
             // 
@@ -608,12 +600,11 @@
             lineEndXNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineEndXNumericUpDown.DecimalPlaces = 2;
             lineEndXNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineEndXNumericUpDown.Location = new Point(1403, 386);
-            lineEndXNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineEndXNumericUpDown.Location = new Point(1611, 572);
             lineEndXNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineEndXNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineEndXNumericUpDown.Name = "lineEndXNumericUpDown";
-            lineEndXNumericUpDown.Size = new Size(53, 23);
+            lineEndXNumericUpDown.Size = new Size(61, 27);
             lineEndXNumericUpDown.TabIndex = 36;
             lineEndXNumericUpDown.ValueChanged += lineEndNumericUpDown_ValueChanged;
             // 
@@ -621,9 +612,9 @@
             // 
             label13.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label13.AutoSize = true;
-            label13.Location = new Point(1382, 369);
+            label13.Location = new Point(1587, 549);
             label13.Name = "label13";
-            label13.Size = new Size(120, 15);
+            label13.Size = new Size(152, 20);
             label13.TabIndex = 35;
             label13.Text = "Координаты точки B";
             // 
@@ -632,22 +623,21 @@
             lineEndZNumericUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lineEndZNumericUpDown.DecimalPlaces = 2;
             lineEndZNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            lineEndZNumericUpDown.Location = new Point(1559, 386);
-            lineEndZNumericUpDown.Margin = new Padding(3, 2, 3, 2);
+            lineEndZNumericUpDown.Location = new Point(1790, 572);
             lineEndZNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             lineEndZNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             lineEndZNumericUpDown.Name = "lineEndZNumericUpDown";
-            lineEndZNumericUpDown.Size = new Size(53, 23);
+            lineEndZNumericUpDown.Size = new Size(61, 27);
             lineEndZNumericUpDown.TabIndex = 41;
             lineEndZNumericUpDown.ValueChanged += lineEndNumericUpDown_ValueChanged;
             // 
             // refclectXYbutton
             // 
             refclectXYbutton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            refclectXYbutton.Location = new Point(1369, 574);
-            refclectXYbutton.Margin = new Padding(4);
+            refclectXYbutton.Location = new Point(1564, 784);
+            refclectXYbutton.Margin = new Padding(5);
             refclectXYbutton.Name = "refclectXYbutton";
-            refclectXYbutton.Size = new Size(172, 26);
+            refclectXYbutton.Size = new Size(287, 35);
             refclectXYbutton.TabIndex = 42;
             refclectXYbutton.Text = "Отразить по XY";
             refclectXYbutton.UseVisualStyleBackColor = true;
@@ -656,10 +646,10 @@
             // refclectXZbutton
             // 
             refclectXZbutton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            refclectXZbutton.Location = new Point(1369, 607);
-            refclectXZbutton.Margin = new Padding(4);
+            refclectXZbutton.Location = new Point(1564, 827);
+            refclectXZbutton.Margin = new Padding(5);
             refclectXZbutton.Name = "refclectXZbutton";
-            refclectXZbutton.Size = new Size(172, 26);
+            refclectXZbutton.Size = new Size(287, 35);
             refclectXZbutton.TabIndex = 43;
             refclectXZbutton.Text = "Отразить по XZ";
             refclectXZbutton.UseVisualStyleBackColor = true;
@@ -668,10 +658,10 @@
             // refclectYZbutton
             // 
             refclectYZbutton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            refclectYZbutton.Location = new Point(1369, 640);
-            refclectYZbutton.Margin = new Padding(4);
+            refclectYZbutton.Location = new Point(1566, 872);
+            refclectYZbutton.Margin = new Padding(5);
             refclectYZbutton.Name = "refclectYZbutton";
-            refclectYZbutton.Size = new Size(172, 26);
+            refclectYZbutton.Size = new Size(285, 35);
             refclectYZbutton.TabIndex = 44;
             refclectYZbutton.Text = "Отразить по YZ";
             refclectYZbutton.UseVisualStyleBackColor = true;
@@ -681,18 +671,48 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
-            // plotToolStripMenuItem
+            // groupBox1
             // 
-            plotToolStripMenuItem.Name = "plotToolStripMenuItem";
-            plotToolStripMenuItem.Size = new Size(213, 22);
-            plotToolStripMenuItem.Text = "График двух переменных";
-            plotToolStripMenuItem.Click += plotToolStripMenuItem_Click;
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox1.Controls.Add(setCamersRadioButton);
+            groupBox1.Controls.Add(setPolyhedronRadioButton);
+            groupBox1.Location = new Point(1565, 43);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(250, 85);
+            groupBox1.TabIndex = 45;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Выбор объекта";
+            // 
+            // setCamersRadioButton
+            // 
+            setCamersRadioButton.AutoSize = true;
+            setCamersRadioButton.Location = new Point(14, 56);
+            setCamersRadioButton.Name = "setCamersRadioButton";
+            setCamersRadioButton.Size = new Size(83, 24);
+            setCamersRadioButton.TabIndex = 1;
+            setCamersRadioButton.TabStop = true;
+            setCamersRadioButton.Text = "Камера";
+            setCamersRadioButton.UseVisualStyleBackColor = true;
+            setCamersRadioButton.CheckedChanged += setCamersRadioButton_CheckedChanged;
+            // 
+            // setPolyhedronRadioButton
+            // 
+            setPolyhedronRadioButton.AutoSize = true;
+            setPolyhedronRadioButton.Location = new Point(14, 26);
+            setPolyhedronRadioButton.Name = "setPolyhedronRadioButton";
+            setPolyhedronRadioButton.Size = new Size(133, 24);
+            setPolyhedronRadioButton.TabIndex = 0;
+            setPolyhedronRadioButton.TabStop = true;
+            setPolyhedronRadioButton.Text = "Многогранник";
+            setPolyhedronRadioButton.UseVisualStyleBackColor = true;
+            setPolyhedronRadioButton.CheckedChanged += setPolyhedronRadioButton_CheckedChanged;
             // 
             // Scene
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1627, 791);
+            ClientSize = new Size(1859, 1055);
+            Controls.Add(groupBox1);
             Controls.Add(refclectYZbutton);
             Controls.Add(refclectXZbutton);
             Controls.Add(refclectXYbutton);
@@ -731,12 +751,11 @@
             Controls.Add(RotateAboutYRadioButton);
             Controls.Add(RotateAboutXRadioButton);
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Scene";
             Text = "Scene";
             WindowState = FormWindowState.Maximized;
+            SizeChanged += Scene_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)lineStartXNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)lineStartYNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)lineStartZNumericUpDown).EndInit();
@@ -749,6 +768,8 @@
             ((System.ComponentModel.ISupportInitialize)lineEndYNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)lineEndXNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)lineEndZNumericUpDown).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -813,6 +834,9 @@
         private OpenFileDialog openFileDialog1;
         private ToolStripMenuItem rotationFigureToolStripMenuItem;
         private ToolStripMenuItem plotToolStripMenuItem;
+        private GroupBox groupBox1;
+        private RadioButton setCamersRadioButton;
+        private RadioButton setPolyhedronRadioButton;
     }
 }
 

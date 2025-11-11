@@ -58,7 +58,7 @@ namespace CS332_Lab6
 
             cam = new Camera(
                 new Point3D(0f, 0f, -5f),
-                60f,
+                new Point3D(0f, 0f, 0f),
                 panel1.Width,
                 panel1.Height);
         }
@@ -123,7 +123,7 @@ namespace CS332_Lab6
             var yAxisEnd = new Point3D(0, axisLength, 0);
             var zAxisEnd = new Point3D(0, 0, axisLength);
 
-            var axes = new List<List<PointF>>
+            PointF[][] axes = new PointF[][]
             {
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }))[0],
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }))[0],
@@ -171,10 +171,10 @@ namespace CS332_Lab6
             {
                 foreach (var face in projectedFaces)
                 {
-                    for (int i = 0; i < face.Count; i++)
+                    for (int i = 0; i < face.Length; i++)
                     {
                         var a = face[i];
-                        var b = face[(i + 1) % face.Count];
+                        var b = face[(i + 1) % face.Length];
                         if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
                         {
                             g.DrawLine(pen, a, b);
