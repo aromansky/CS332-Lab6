@@ -1,4 +1,6 @@
-﻿namespace Geometry
+﻿using System.Globalization;
+
+namespace Geometry
 {
     public struct Vector3
     {
@@ -72,6 +74,11 @@
         public static Vector3 operator *(Vector3 v, float n)
         {
             return new Vector3(v.X * n, v.Y * n, v.Z * n);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", X, Y, Z);
         }
     }
 }

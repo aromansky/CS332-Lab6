@@ -11,6 +11,12 @@
             this.faces = faces.Select(f => (Face)f.Clone()).ToList();
         }
 
+        public Polyhedron(List<Face> faces, string name)
+        {
+            this.faces = faces.Select(f => (Face)f.Clone()).ToList();
+            this.Name = name;
+        }
+
         public Polyhedron(Polyhedron other)
         {
             this.faces = other.Faces.Select(f => (Face)f.Clone()).ToList();
@@ -40,14 +46,19 @@
 
                 for (int i = 0; i < allVerticies.Count; i++) vertexIndices[allVerticies[i]] = i + 1;
 
+                writer.WriteLine("o " + Name);
+
                 foreach (Point3D vert in allVerticies) writer.WriteLine("v " + vert);
 
-                foreach (Face face in Faces)
-                {
-                    List<int> indicies = face.Vertices.Select(x =>  vertexIndices[x]).ToList();
-                    writer.WriteLine("f " + string.Join(" ", indicies));
-                }
+                foreach (Face face in Faces) writer.WriteLine("vn " + face.NormalVector);
 
+                for (int i = 0; i < Faces.Count; i++)
+                {
+                    Face face = Faces[i];
+                    List<int> vertIndices = face.Vertices.Select(x => vertexIndices[x]).ToList();
+
+                    writer.WriteLine("f " + string.Join(" ", vertIndices) + $"//{i + 1}");
+                }
             }
         }
 
@@ -61,31 +72,58 @@
             using (StreamReader reader = new StreamReader(fname))
             {
                 List<Point3D> allVerticies = new List<Point3D>();
+                List<Vector3> allNormals = new List<Vector3>();
                 List<Face> faces = new List<Face>();
                 string? line;
+                string name = "Polyhedron";
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length == 0) continue;
-                    if (parts[0] == "v" && parts.Length == 4)
+
+                    if (parts[0] == "o" && parts.Length == 2)
+                    {
+                        name = parts[1];
+                    }
+                    else if (parts[0] == "v" && parts.Length == 4)
                     {
                         float x = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
                         float y = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
                         float z = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
                         allVerticies.Add(new Point3D(x, y, z));
                     }
+                    else if (parts[0] == "vn" && parts.Length == 4)
+                    {
+                        float x = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                        float y = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                        float z = float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture);
+                        allNormals.Add(new Vector3(x, y, z));
+                    }
                     else if (parts[0] == "f" && parts.Length >= 4)
                     {
                         List<int> indices = new List<int>();
+                        Vector3? faceNormal = null;
+
                         for (int i = 1; i < parts.Length; i++)
                         {
-                            int index = int.Parse(parts[i].Split('/')[0]) - 1;
+                            string[] subParts = parts[i].Split('/');
+                            int index = int.Parse(subParts[0]) - 1;
                             indices.Add(index);
+
+                            if (subParts.Length == 3 && !string.IsNullOrEmpty(subParts[2]) && faceNormal == null)
+                            {
+                                int normalIndex = int.Parse(subParts[2]) - 1;
+                                faceNormal = allNormals[normalIndex];
+                            }
                         }
-                        faces.Add(new Face(indices.Select(x => allVerticies[x]).ToList()));
+
+                        if (faceNormal != null)
+                            faces.Add(new Face(indices.Select(x => allVerticies[x]).ToList(), (Vector3)faceNormal));
+                        else
+                            faces.Add(new Face(indices.Select(x => allVerticies[x]).ToList()));
                     }
                 }
-                return new Polyhedron(faces);
+                return new Polyhedron(faces, name);
             }
         }
 

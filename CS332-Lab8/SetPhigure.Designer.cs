@@ -35,20 +35,23 @@
             // 
             listBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listBox.FormattingEnabled = true;
-            listBox.Location = new Point(12, 12);
+            listBox.ItemHeight = 15;
+            listBox.Location = new Point(10, 9);
+            listBox.Margin = new Padding(3, 2, 3, 2);
             listBox.Name = "listBox";
-            listBox.Size = new Size(237, 404);
+            listBox.Size = new Size(208, 304);
             listBox.TabIndex = 1;
             listBox.SelectedIndexChanged += listBox_SelectedIndexChanged;
             // 
             // SetPhigure
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(261, 450);
+            ClientSize = new Size(228, 338);
             Controls.Add(listBox);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "SetPhigure";
-            Text = "SetPhigure";
+            Text = "Выбрать фигуру";
             Activated += SetPhigure_Activated;
             ResumeLayout(false);
         }

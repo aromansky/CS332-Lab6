@@ -484,7 +484,8 @@ namespace CS332_Lab8
                 openFileDialog.Filter = "Wavefront OBJ (*.obj)|*.obj|All Files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    polyhedrons[polyInd] = Polyhedron.Load(openFileDialog.FileName);
+                    polyhedrons.Add(Polyhedron.Load(openFileDialog.FileName));
+                    polyInd++;
                     panel1.Invalidate();
                 }
             }
