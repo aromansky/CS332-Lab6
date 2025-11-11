@@ -115,7 +115,7 @@
             return new Point3D(centerX, centerY, centerZ);
         }
 
-        public bool IsFrontFace(NewCamera camera)
+        public bool IsFrontFace(Camera camera)
         {
             if (vertices.Count < 3) return true;
             Vector3 viewVector;
