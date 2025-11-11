@@ -1,4 +1,6 @@
-﻿namespace Geometry
+﻿using System.Text;
+
+namespace Geometry
 {
     public class Polyhedron : ICloneable
     {
@@ -43,7 +45,7 @@
                 List<Point3D> allVerticies = Faces.SelectMany(x => x.Vertices).Distinct().ToList();
 
                 Dictionary<Point3D, int> vertexIndices = new Dictionary<Point3D, int>();
-
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < allVerticies.Count; i++) vertexIndices[allVerticies[i]] = i + 1;
 
                 writer.WriteLine("o " + Name);
@@ -57,7 +59,11 @@
                     Face face = Faces[i];
                     List<int> vertIndices = face.Vertices.Select(x => vertexIndices[x]).ToList();
 
-                    writer.WriteLine("f " + string.Join(" ", vertIndices) + $"//{i + 1}");
+                    foreach (int ind in vertIndices)
+                        builder.Append($"{ind}//{i + 1} ");
+
+                    writer.WriteLine("f " + builder.ToString());
+                    builder.Clear();
                 }
             }
         }

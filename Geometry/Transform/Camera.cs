@@ -148,23 +148,23 @@ namespace Geometry
             ComputeViewMatrix();
         }
 
-        private Point3D ProjectPoint(Point3D point)
+        public Point3D ProjectPoint(Point3D point)
         {
             Point3D transformedPoint = Transform.Apply(ViewMatrix, point);
             return transformedPoint;
         }
 
-        private Point3D[] ProjectFace(Face face)
+        public Point3D[] ProjectFace(Face face)
         {
             return face.Vertices.Select(x => ProjectPoint(x)).ToArray();
         }
 
-        private Point3D[][] ProjectPolyhedron(Polyhedron polyhedron)
+        public Point3D[][] ProjectPolyhedron(Polyhedron polyhedron)
         {
             return polyhedron.Faces.Select(x => ProjectFace(x)).ToArray();
         }
 
-        private PointF? ProjectPoint2D(Point3D point)
+        public PointF? ProjectPoint2D(Point3D point)
         {
             Point3D cameraPoint = ProjectPoint(point);
             float screenX = 0, screenY = 0;
@@ -215,7 +215,7 @@ namespace Geometry
             return new PointF(screenX, screenY);
         }
 
-        private PointF[] ProjectFace2D(Face face)
+        public PointF[] ProjectFace2D(Face face)
         {
             var points2D = face.Vertices
                                 .Select(x => ProjectPoint2D(x))
