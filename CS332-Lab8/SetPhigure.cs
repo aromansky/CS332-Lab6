@@ -57,7 +57,7 @@ namespace CS332_Lab8
                 scene.polyhedrons.RemoveAt(rightClickedIndex);
                 listBox.Items.RemoveAt(rightClickedIndex);
 
-                scene.polyInd = Math.Max(0, rightClickedIndex - 1);
+                scene.polyInd = Math.Max(-1, rightClickedIndex - 1);
                 scene.Refresh();
 
                 rightClickedIndex = -1;
