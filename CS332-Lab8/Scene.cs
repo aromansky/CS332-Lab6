@@ -21,6 +21,7 @@ namespace CS332_Lab8
         private Camera cam;
         private List<Polyhedron> polyhedrons = new List<Polyhedron>();
         internal int polyInd = -1;
+        private Renderer renderer;
 
         private Point3D linePoint = new Point3D(0, 0, 0);
         private Vector3 lineVector;
@@ -46,6 +47,9 @@ namespace CS332_Lab8
 
         private int deltaX = 0;
 
+        private bool useZBufferRendering = false;
+
+
         public Scene()
         {
             InitializeComponent();
@@ -55,6 +59,8 @@ namespace CS332_Lab8
                 new Point3D(0, 0, 0),
                 panel1.Width, panel1.Height
                 );
+
+            renderer = new Renderer(cam, panel1.Width, panel1.Height);
 
             typeof(Panel).InvokeMember("DoubleBuffered",
                 System.Reflection.BindingFlags.SetProperty |
@@ -122,82 +128,108 @@ namespace CS332_Lab8
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            var g = e.Graphics;
+            Graphics g = e.Graphics;
             g.Clear(SystemColors.ActiveBorder);
 
-            // === РИСОВАНИЕ ОСЕЙ КООРДИНАТ ===
-            float axisLength = 5.0f;
-            var origin = new Point3D(0, 0, 0);
-            var xAxisEnd = new Point3D(axisLength, 0, 0);
-            var yAxisEnd = new Point3D(0, axisLength, 0);
-            var zAxisEnd = new Point3D(0, 0, axisLength);
-
-            var axes = new PointF[][]
+            if (useZBufferRendering)
             {
+                // ==== РЕНДЕР ЧЕРЕЗ Z-БУФЕР ====
+                renderer.Clear(Color.Gray);
+
+                // рисуем все полиэдры
+                foreach (var p in polyhedrons)
+                    renderer.Render(p, Color.LightSkyBlue);
+
+                // рисуем оси координат поверх
+                float axisLength = 5.0f;
+                var origin = new Point3D(0, 0, 0);
+                var xAxisEnd = new Point3D(axisLength, 0, 0);
+                var yAxisEnd = new Point3D(0, axisLength, 0);
+                var zAxisEnd = new Point3D(0, 0, axisLength);
+
+                renderer.Render(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }), Color.Red);
+                renderer.Render(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }), Color.Green);
+                renderer.Render(new Polyhedron(new List<Face> { CreateAxis(origin, zAxisEnd) }), Color.Blue);
+
+                Bitmap frame = renderer.GetImage();
+                g.DrawImage(frame, 0, 0, panel1.Width, panel1.Height);
+            }
+            else
+            {
+                // === РИСОВАНИЕ ОСЕЙ КООРДИНАТ ===
+                float axisLength = 5.0f;
+                var origin = new Point3D(0, 0, 0);
+                var xAxisEnd = new Point3D(axisLength, 0, 0);
+                var yAxisEnd = new Point3D(0, axisLength, 0);
+                var zAxisEnd = new Point3D(0, 0, axisLength);
+
+                var axes = new PointF[][]
+                {
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }))[0],
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }))[0],
                 cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, zAxisEnd) }))[0]
-            };
+                };
 
-            using (var penX = new Pen(Color.Red, 2f))
-            using (var penY = new Pen(Color.Green, 2f))
-            using (var penZ = new Pen(Color.Blue, 2f))
-            {
-                if (axes[0].Length >= 2)
-                    g.DrawLine(penX, axes[0][0], axes[0][1]);
-                if (axes[1].Length >= 2)
-                    g.DrawLine(penY, axes[1][0], axes[1][1]);
-                if (axes[2].Length >= 2)
-                    g.DrawLine(penZ, axes[2][0], axes[2][1]);
-            }
-
-            // === ОСЬ ВРАЩЕНИЯ (если выбрана пользовательская) ===
-            if (rotatingCustomAxisMode && !lineVector.IsZero())
-            {
-                Vector3 dir = lineVector.Normalized();
-                float len = 5.0f;
-
-                Point3D start = new Point3D(
-                    linePoint.X - dir.X * len,
-                    linePoint.Y - dir.Y * len,
-                    linePoint.Z - dir.Z * len);
-
-                Point3D end = new Point3D(
-                    linePoint.X + dir.X * len,
-                    linePoint.Y + dir.Y * len,
-                    linePoint.Z + dir.Z * len);
-
-                var projectedAxis = cam.Project(new Polyhedron(new List<Face> { CreateAxis(start, end) }))[0];
-
-                using (var penAxis = new Pen(Color.Gold, 2f) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                using (var penX = new Pen(Color.Red, 2f))
+                using (var penY = new Pen(Color.Green, 2f))
+                using (var penZ = new Pen(Color.Blue, 2f))
                 {
-                    g.DrawLine(penAxis, projectedAxis[0], projectedAxis[1]);
+                    if (axes[0].Length >= 2)
+                        g.DrawLine(penX, axes[0][0], axes[0][1]);
+                    if (axes[1].Length >= 2)
+                        g.DrawLine(penY, axes[1][0], axes[1][1]);
+                    if (axes[2].Length >= 2)
+                        g.DrawLine(penZ, axes[2][0], axes[2][1]);
                 }
-            }
 
-            for (int i = 0; i < polyhedrons.Count; i++)
-            {
-                Polyhedron p = polyhedrons[i];
-                PointF[][] projectedFaces = cam.Project(p);
-
-                using (Pen pen = new Pen(Color.Black, 1f))
+                // === ОСЬ ВРАЩЕНИЯ (если выбрана пользовательская) ===
+                if (rotatingCustomAxisMode && !lineVector.IsZero())
                 {
-                    if (i == polyInd) pen.Color = Color.Purple;
-                    else pen.Color = Color.Black;
+                    Vector3 dir = lineVector.Normalized();
+                    float len = 5.0f;
 
-                    foreach (PointF[] face in projectedFaces)
+                    Point3D start = new Point3D(
+                        linePoint.X - dir.X * len,
+                        linePoint.Y - dir.Y * len,
+                        linePoint.Z - dir.Z * len);
+
+                    Point3D end = new Point3D(
+                        linePoint.X + dir.X * len,
+                        linePoint.Y + dir.Y * len,
+                        linePoint.Z + dir.Z * len);
+
+                    var projectedAxis = cam.Project(new Polyhedron(new List<Face> { CreateAxis(start, end) }))[0];
+
+                    using (var penAxis = new Pen(Color.Gold, 2f) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
                     {
-                        if (face == null)
-                            continue;
+                        g.DrawLine(penAxis, projectedAxis[0], projectedAxis[1]);
+                    }
+                }
 
-                        for (int j = 0; j < face.Length; j++)
+                for (int i = 0; i < polyhedrons.Count; i++)
+                {
+                    Polyhedron p = polyhedrons[i];
+                    PointF[][] projectedFaces = cam.Project(p);
+
+                    using (Pen pen = new Pen(Color.Black, 1f))
+                    {
+                        if (i == polyInd) pen.Color = Color.Purple;
+                        else pen.Color = Color.Black;
+
+                        foreach (PointF[] face in projectedFaces)
                         {
-                            PointF a = face[j];
-                            PointF b = face[(j + 1) % face.Length];
-                            if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
+                            if (face == null)
+                                continue;
+
+                            for (int j = 0; j < face.Length; j++)
                             {
-                                g.DrawLine(pen, a, b);
-                                g.FillEllipse(Brushes.Red, a.X - 3, a.Y - 3, 6, 6);
+                                PointF a = face[j];
+                                PointF b = face[(j + 1) % face.Length];
+                                if (!float.IsNaN(a.X) && !float.IsNaN(b.X))
+                                {
+                                    g.DrawLine(pen, a, b);
+                                    g.FillEllipse(Brushes.Red, a.X - 3, a.Y - 3, 6, 6);
+                                }
                             }
                         }
                     }
@@ -520,6 +552,9 @@ namespace CS332_Lab8
 
             cam.ScreenWidth = panel1.Width;
             cam.ScreenHeight = panel1.Height;
+
+            renderer = new Renderer(cam, panel1.Width, panel1.Height);
+
             panel1.Invalidate();
         }
 
@@ -537,6 +572,12 @@ namespace CS332_Lab8
         {
             SetPhigure form = new SetPhigure(polyhedrons, this);
             form.Show();
+        }
+
+        private void zBufferCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            useZBufferRendering = zBufferCheckBox.Checked;
+            panel1.Invalidate();
         }
     }
 }
