@@ -96,7 +96,7 @@ namespace CS332_Lab8
             {
                 deltaX = e.X - _prevMousePos.X;
 
-                if (setPoly && polyhedrons[polyInd] != null)
+                if (setPoly && polyInd != -1)
                 {
                     PolyhedronProcessing();
                 }
