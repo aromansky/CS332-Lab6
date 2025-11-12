@@ -15,11 +15,12 @@ namespace CS332_Lab8
 {
     public partial class Scene : Form
     {
+        SetPhigure form;
 
         private Point _prevMousePos;
         private bool _isDragging = false;
         private Camera cam;
-        private List<Polyhedron> polyhedrons = new List<Polyhedron>();
+        public List<Polyhedron> polyhedrons = new List<Polyhedron>();
         internal int polyInd = -1;
         private Renderer renderer;
 
@@ -528,7 +529,8 @@ namespace CS332_Lab8
             RotationFigureForm form = new RotationFigureForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                polyhedrons[polyInd] = new Polyhedron(form.poly);
+                polyhedrons.Add(new Polyhedron(form.poly));
+                polyInd++;
                 form.Close();
                 panel1.Invalidate();
             }
@@ -540,7 +542,8 @@ namespace CS332_Lab8
             PlotSettingsForm form = new PlotSettingsForm();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                polyhedrons[polyInd] = new Polyhedron(form.poly);
+                polyhedrons.Add(new Polyhedron(form.poly));
+                polyInd++;
                 form.Close();
                 panel1.Invalidate();
             }
@@ -570,7 +573,9 @@ namespace CS332_Lab8
 
         private void currentPhigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetPhigure form = new SetPhigure(polyhedrons, this);
+            if (form != null && !form.IsDisposed && form.Visible) return;
+
+            form = new SetPhigure(polyhedrons, this);
             form.Show();
         }
 

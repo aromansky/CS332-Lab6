@@ -77,6 +77,7 @@ namespace CS332_Lab7
                     break;
             }
             this.poly = Transform.Apply(rotationMatrixFinal, this.poly);
+            this.poly.Name = "Фигура вращения";
 
             this.DialogResult = DialogResult.OK;
         }
