@@ -26,13 +26,18 @@ namespace Geometry
             return (X, Y, Z);
         }
 
-        public object Clone() => new Point3D(this);
+        public virtual object Clone() => new Point3D(this);
 
         public static Point3D operator *(Point3D point, float scalar)
         {
             (float x, float y, float z) = point.GetCoords();
             point = new Point3D(x * scalar, y * scalar, z * scalar);
             return point;
+        }
+
+        public static Vector3 operator -(Point3D to, Point3D from)
+        {
+            return new Vector3(to.X - from.X, to.Y - from.Y, to.Z - from.Z);
         }
 
         public Vector3 ToVector3() => new Vector3(X, Y, Z);

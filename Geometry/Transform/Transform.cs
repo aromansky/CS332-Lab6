@@ -163,15 +163,6 @@
         }
 
         /// <summary>
-        /// Применяет 4x4 матрицу к ребру.
-        /// Возвращает новое ребро с результатом преобразования.
-        /// </summary>
-        public static Edge Apply(Matrix m, Edge e)
-        {
-            return new Edge(Apply(m, e.Start), Apply(m, e.End));
-        }
-
-        /// <summary>
         /// Применяет 4x4 матрицу к многограннику.
         /// Возвращает новый многогранник с результатом преобразования.
         /// </summary>
@@ -180,7 +171,7 @@
             List<Face> transformedFaces = new List<Face>();
             foreach (Face f in p.Faces)
             {
-                Face transformedFace = new Face(f.Edges.Select(x => Apply(m, x)).ToList());
+                Face transformedFace = new Face(f.Vertices.Select(x => Apply(m, x)).ToList());
                 transformedFaces.Add(transformedFace);
             }
             Polyhedron poly = new Polyhedron(transformedFaces);

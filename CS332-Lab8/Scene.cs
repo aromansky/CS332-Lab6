@@ -241,7 +241,7 @@ namespace CS332_Lab8
 
         private static Face CreateAxis(Point3D start, Point3D end)
         {
-            return new Face(new List<Edge> { new Edge(start, end) });
+            return new Face(start, end);
         }
 
         private void PerspectiveToolStripMenuItem_Click(object sender, EventArgs e)
