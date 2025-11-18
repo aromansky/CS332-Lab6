@@ -86,5 +86,26 @@ namespace CS332_Lab9
         {
             scene.polyhedrons[scene.polyInd].ColorFacesAutomatically();
         }
+
+        private void добавитьТекстуруToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (scene.polyInd == -1) return;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    MyImage texture = new MyImage(openFileDialog.FileName);
+
+                    scene.polyhedrons[scene.polyInd].SetTextureToAllFaces(texture);
+
+                    scene.renderer.SetMode(RenderMode.Texture);
+
+                    scene.Refresh();
+                }
+            }
+        }
     }
+    
 }

@@ -73,6 +73,10 @@ namespace CS332_Lab9
             TrimetricToolStripMenuItem = new ToolStripMenuItem();
             DimetricToolStripMenuItem = new ToolStripMenuItem();
             IsometricToolStripMenuItem = new ToolStripMenuItem();
+            типОсвещенияToolStripMenuItem = new ToolStripMenuItem();
+            нетToolStripMenuItem = new ToolStripMenuItem();
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem = new ToolStripMenuItem();
+            шейдингФонгаДляМодToolStripMenuItem = new ToolStripMenuItem();
             currentPhigureToolStripMenuItem = new ToolStripMenuItem();
             ScaleRadioButton = new RadioButton();
             TranslateAboutZRadioButton = new RadioButton();
@@ -96,10 +100,6 @@ namespace CS332_Lab9
             setCamersRadioButton = new RadioButton();
             setPolyhedronRadioButton = new RadioButton();
             zBufferCheckBox = new CheckBox();
-            типОсвещенияToolStripMenuItem = new ToolStripMenuItem();
-            нетToolStripMenuItem = new ToolStripMenuItem();
-            шейдингГуроДляМоделиЛамбертаToolStripMenuItem = new ToolStripMenuItem();
-            шейдингФонгаДляМодToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)lineStartXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartYNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartZNumericUpDown).BeginInit();
@@ -490,6 +490,34 @@ namespace CS332_Lab9
             IsometricToolStripMenuItem.Text = "Изометрическая";
             IsometricToolStripMenuItem.Click += IsometricToolStripMenuItem_Click;
             // 
+            // типОсвещенияToolStripMenuItem
+            // 
+            типОсвещенияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { нетToolStripMenuItem, шейдингГуроДляМоделиЛамбертаToolStripMenuItem, шейдингФонгаДляМодToolStripMenuItem });
+            типОсвещенияToolStripMenuItem.Name = "типОсвещенияToolStripMenuItem";
+            типОсвещенияToolStripMenuItem.Size = new Size(105, 20);
+            типОсвещенияToolStripMenuItem.Text = "Тип освещения";
+            // 
+            // нетToolStripMenuItem
+            // 
+            нетToolStripMenuItem.Name = "нетToolStripMenuItem";
+            нетToolStripMenuItem.Size = new Size(299, 22);
+            нетToolStripMenuItem.Text = "Нет";
+            нетToolStripMenuItem.Click += нетToolStripMenuItem_Click;
+            // 
+            // шейдингГуроДляМоделиЛамбертаToolStripMenuItem
+            // 
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Name = "шейдингГуроДляМоделиЛамбертаToolStripMenuItem";
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Size = new Size(299, 22);
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Text = "Шейдинг Гуро для модели Ламберта";
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Click += шейдингГуроДляМоделиЛамбертаToolStripMenuItem_Click;
+            // 
+            // шейдингФонгаДляМодToolStripMenuItem
+            // 
+            шейдингФонгаДляМодToolStripMenuItem.Name = "шейдингФонгаДляМодToolStripMenuItem";
+            шейдингФонгаДляМодToolStripMenuItem.Size = new Size(299, 22);
+            шейдингФонгаДляМодToolStripMenuItem.Text = "Шейдинг Фонга для модели Туншейдинг";
+            шейдингФонгаДляМодToolStripMenuItem.Click += шейдингФонгаДляМодToolStripMenuItem_Click;
+            // 
             // currentPhigureToolStripMenuItem
             // 
             currentPhigureToolStripMenuItem.Name = "currentPhigureToolStripMenuItem";
@@ -761,34 +789,6 @@ namespace CS332_Lab9
             zBufferCheckBox.Text = "Использовать Z-буффер";
             zBufferCheckBox.UseVisualStyleBackColor = true;
             zBufferCheckBox.CheckedChanged += zBufferCheckBox_CheckedChanged;
-            // 
-            // типОсвещенияToolStripMenuItem
-            // 
-            типОсвещенияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { нетToolStripMenuItem, шейдингГуроДляМоделиЛамбертаToolStripMenuItem, шейдингФонгаДляМодToolStripMenuItem });
-            типОсвещенияToolStripMenuItem.Name = "типОсвещенияToolStripMenuItem";
-            типОсвещенияToolStripMenuItem.Size = new Size(105, 20);
-            типОсвещенияToolStripMenuItem.Text = "Тип освещения";
-            // 
-            // нетToolStripMenuItem
-            // 
-            нетToolStripMenuItem.Name = "нетToolStripMenuItem";
-            нетToolStripMenuItem.Size = new Size(299, 22);
-            нетToolStripMenuItem.Text = "Нет";
-            нетToolStripMenuItem.Click += нетToolStripMenuItem_Click;
-            // 
-            // шейдингГуроДляМоделиЛамбертаToolStripMenuItem
-            // 
-            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Name = "шейдингГуроДляМоделиЛамбертаToolStripMenuItem";
-            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Size = new Size(299, 22);
-            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Text = "Шейдинг Гуро для модели Ламберта";
-            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Click += шейдингГуроДляМоделиЛамбертаToolStripMenuItem_Click;
-            // 
-            // шейдингФонгаДляМодToolStripMenuItem
-            // 
-            шейдингФонгаДляМодToolStripMenuItem.Name = "шейдингФонгаДляМодToolStripMenuItem";
-            шейдингФонгаДляМодToolStripMenuItem.Size = new Size(299, 22);
-            шейдингФонгаДляМодToolStripMenuItem.Text = "Шейдинг Фонга для модели Туншейдинг";
-            шейдингФонгаДляМодToolStripMenuItem.Click += шейдингФонгаДляМодToolStripMenuItem_Click;
             // 
             // Scene
             // 

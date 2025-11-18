@@ -5,7 +5,7 @@ namespace Geometry
     public class Face: ICloneable
     {
 
-        private List<Vertex> vertices;
+        internal List<Vertex> vertices;
 
         /// <summary>
         /// Набор несвязанных вершин грани.
@@ -13,31 +13,44 @@ namespace Geometry
         public List<Vertex> Vertices => vertices.Select(v => (Vertex)v.Clone()).ToList();
         public Vector3 ObjectColor { get; private set; } = new Vector3(Color.White);
         public Vector3 NormalVector { get; private set; }
-        
+
+        public MyImage Texture { get; private set; }
+
+        public Face(List<Point3D> points, List<PointF> uvs, MyImage texture = null, Vector3? normalVector = null, Color? col = null)
+        {
+            this.Texture = texture;
+            InitFace(points, uvs, normalVector, col);
+        }
+
 
         public Face(List<Point3D> points, Vector3? normalVector = null, Color? col = null)
         {
-            InitFace(points, normalVector, col);
+            InitFace(points, null, normalVector, col);
         }
 
         public Face(params Point3D[] points)
         {
-            InitFace(points.ToList(), null, null);
+            InitFace(points.ToList(), null, null, null);
         }
 
         public Face(List<Point3D> points, Vector3 NormalVector)
         {
-            InitFace(points, NormalVector, null);
+            InitFace(points, null, NormalVector, null);
         }
 
 
-        private void InitFace(List<Point3D> points, Vector3? normalVector, Color? col)
+        private void InitFace(List<Point3D> points, List<PointF> uvs, Vector3? normalVector, Color? col)
         {
             this.vertices = new List<Vertex>();
             points = points.Distinct().ToList();
 
-            foreach (var p in points)
-                this.vertices.Add(new Vertex(p));
+            for (int i = 0; i < points.Count; i++)
+            {
+                float u = (uvs != null) ? uvs[i].X : 0.0f;
+                float v = (uvs != null) ? uvs[i].Y : 0.0f;
+
+                this.vertices.Add(new Vertex(points[i], u, v));
+            }
 
             if (normalVector.HasValue)
                 this.NormalVector = normalVector.Value;
@@ -64,7 +77,13 @@ namespace Geometry
         {
             this.NormalVector = other.NormalVector;
             this.ObjectColor = other.ObjectColor;
+            this.Texture = other.Texture; // NEW: Копирование ссылки на текстуру
             this.vertices = other.Vertices.Select(e => (Vertex)e.Clone()).ToList();
+        }
+
+        public void SetTexture(MyImage texture)
+        {
+            this.Texture = texture;
         }
 
         public void SetColor(Vector3 col)

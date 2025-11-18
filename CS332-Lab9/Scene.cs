@@ -25,7 +25,7 @@ namespace CS332_Lab9
         private Camera cam;
         public List<Polyhedron> polyhedrons = new List<Polyhedron>();
         internal int polyInd = -1;
-        private Renderer renderer;
+        internal Renderer renderer;
         private LightSource lightSource;
 
         private Point3D linePoint = new Point3D(0, 0, 0);
@@ -65,7 +65,7 @@ namespace CS332_Lab9
                 panel1.Width, panel1.Height
                 );
 
-            lightSource = new LightSource(5f, 5f, 5f, Color.Blue);
+            lightSource = new LightSource(5f, 5f, 5f, Color.White);
             renderer = new Renderer(cam, panel1.Width, panel1.Height, lightSource);
 
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -629,6 +629,26 @@ namespace CS332_Lab9
         {
             renderer.SetMode(RenderMode.Phong);
             panel1.Invalidate();
+        }
+
+        private void çàãðóçèòüÒåêñòóðóToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (polyInd == -1) return;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    MyImage texture = new MyImage(openFileDialog.FileName);
+                    
+                    polyhedrons[polyInd].SetTextureToAllFaces(texture);
+                    
+                    renderer.SetMode(RenderMode.Texture);
+
+                    panel1.Invalidate();
+                }
+            }
         }
     }
 }

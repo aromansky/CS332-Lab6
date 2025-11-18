@@ -135,8 +135,30 @@ namespace Geometry
             }
         }
 
-
+        public void SetTextureToAllFaces(MyImage texture)
+        {
+            foreach (var face in faces)
+            {
+                face.SetTexture(texture);
+            }
+        }
         public object Clone() => new Polyhedron(this);
+
+        private static readonly List<PointF> TriangleUVs = new List<PointF>
+        {
+            new PointF(0.0f, 0.0f),
+            new PointF(1.0f, 0.0f),
+            new PointF(0.0f, 1.0f)
+        };
+
+        private static readonly List<PointF> QuadUVs = new List<PointF>
+        {
+            new PointF(0.0f, 0.0f),
+            new PointF(1.0f, 0.0f),
+            new PointF(1.0f, 1.0f),
+            new PointF(0.0f, 1.0f)
+        };
+
 
         // Тетраэдр
         public static Polyhedron CreateTetrahedron(float size = 1.0f)
@@ -151,11 +173,10 @@ namespace Geometry
 
             var faces = new List<Face>
             {
-                new Face(vertices[0], vertices[2], vertices[1]),
-                new Face(vertices[0], vertices[3], vertices[2]),
-                new Face(vertices[0], vertices[1], vertices[3]),
-                new Face(vertices[1], vertices[2], vertices[3])
-            };
+                new Face(new List<Point3D> { vertices[0], vertices[2], vertices[1] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[3], vertices[2] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[1], vertices[3] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[1], vertices[2], vertices[3] }, TriangleUVs)};
 
             Polyhedron polyhedron = new Polyhedron(faces);
             polyhedron.Name = "Тетраэдр";
@@ -181,12 +202,12 @@ namespace Geometry
 
             var faces = new List<Face>
             {
-                new Face(vertices[0], vertices[1], vertices[3], vertices[2]), // задняя
-                new Face(vertices[2], vertices[3], vertices[7], vertices[6]), // передняя
-                new Face(vertices[6], vertices[7], vertices[5], vertices[4]), // нижняя
-                new Face(vertices[4], vertices[5], vertices[1], vertices[0]), // верхняя
-                new Face(vertices[2], vertices[6], vertices[4], vertices[0]), // левая
-                new Face(vertices[7], vertices[3], vertices[1], vertices[5])  // правая
+                new Face(new List<Point3D> { vertices[0], vertices[1], vertices[3], vertices[2] }, QuadUVs),
+                new Face(new List<Point3D> { vertices[2], vertices[3], vertices[7], vertices[6] }, QuadUVs),
+                new Face(new List<Point3D> { vertices[6], vertices[7], vertices[5], vertices[4] }, QuadUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[5], vertices[1], vertices[0] }, QuadUVs),
+                new Face(new List<Point3D> { vertices[2], vertices[6], vertices[4], vertices[0] }, QuadUVs),
+                new Face(new List<Point3D> { vertices[7], vertices[3], vertices[1], vertices[5] }, QuadUVs)
             };
 
             Polyhedron polyhedron = new Polyhedron(faces);
@@ -210,14 +231,14 @@ namespace Geometry
 
             var faces = new List<Face>
             {
-                new Face(vertices[4], vertices[0], vertices[2]), // верхние треугольники
-                new Face(vertices[4], vertices[2], vertices[1]),
-                new Face(vertices[4], vertices[1], vertices[3]),
-                new Face(vertices[4], vertices[3], vertices[0]),
-                new Face(vertices[5], vertices[2], vertices[0]), // нижние треугольники
-                new Face(vertices[5], vertices[1], vertices[2]),
-                new Face(vertices[5], vertices[3], vertices[1]),
-                new Face(vertices[5], vertices[0], vertices[3])
+                new Face(new List<Point3D> { vertices[4], vertices[0], vertices[2] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[2], vertices[1] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[1], vertices[3] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[3], vertices[0] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[2], vertices[0] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[1], vertices[2] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[3], vertices[1] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[0], vertices[3] }, TriangleUVs)
             };
 
             Polyhedron polyhedron = new Polyhedron(faces);
@@ -250,29 +271,29 @@ namespace Geometry
             var faces = new List<Face>
             {
                 // 20 треугольных граней
-                new Face(vertices[0], vertices[1], vertices[8]),
-                new Face(vertices[0], vertices[8], vertices[4]),
-                new Face(vertices[0], vertices[4], vertices[5]),
-                new Face(vertices[0], vertices[5], vertices[10]),
-                new Face(vertices[0], vertices[10], vertices[1]),
+                new Face(new List<Point3D> { vertices[0], vertices[1], vertices[8] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[8], vertices[4] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[4], vertices[5] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[5], vertices[10] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[10], vertices[1] }, TriangleUVs),
 
-                new Face(vertices[1], vertices[6], vertices[8]),
-                new Face(vertices[8], vertices[6], vertices[9]),
-                new Face(vertices[8], vertices[9], vertices[4]),
-                new Face(vertices[4], vertices[9], vertices[2]),
-                new Face(vertices[4], vertices[2], vertices[5]),
+                new Face(new List<Point3D> { vertices[1], vertices[6], vertices[8] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[8], vertices[6], vertices[9] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[8], vertices[9], vertices[4] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[9], vertices[2] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[2], vertices[5] }, TriangleUVs),
 
-                new Face(vertices[5], vertices[2], vertices[11]),
-                new Face(vertices[5], vertices[11], vertices[10]),
-                new Face(vertices[10], vertices[11], vertices[7]),
-                new Face(vertices[10], vertices[7], vertices[1]),
-                new Face(vertices[1], vertices[7], vertices[6]),
+                new Face(new List<Point3D> { vertices[5], vertices[2], vertices[11] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[11], vertices[10] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[10], vertices[11], vertices[7] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[10], vertices[7], vertices[1] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[1], vertices[7], vertices[6] }, TriangleUVs),
 
-                new Face(vertices[3], vertices[6], vertices[7]),
-                new Face(vertices[3], vertices[7], vertices[11]),
-                new Face(vertices[3], vertices[11], vertices[2]),
-                new Face(vertices[3], vertices[2], vertices[9]),
-                new Face(vertices[3], vertices[9], vertices[6])
+                new Face(new List<Point3D> { vertices[3], vertices[6], vertices[7] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[3], vertices[7], vertices[11] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[3], vertices[11], vertices[2] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[3], vertices[2], vertices[9] }, TriangleUVs),
+                new Face(new List<Point3D> { vertices[3], vertices[9], vertices[6] }, TriangleUVs)
             };
 
             Polyhedron polyhedron = new Polyhedron(faces);
@@ -281,6 +302,14 @@ namespace Geometry
             return polyhedron;
         }
 
+        private static readonly List<PointF> PentagonUVs = new List<PointF>
+        {
+            new PointF(0.0f, 0.0f),
+            new PointF(1.0f, 0.0f),
+            new PointF(1.0f, 1.0f),
+            new PointF(0.5f, 1.0f),
+            new PointF(0.0f, 1.0f)
+        };
         // Додекаэдр
         public static Polyhedron CreateDodecahedron(float size = 1.0f)
         {
@@ -330,21 +359,21 @@ namespace Geometry
             // Грани (12 пятиугольников)
             var faces = new List<Face>
             {
-                new Face(vertices[0], vertices[12], vertices[2], vertices[18], vertices[16]),
-                new Face(vertices[0], vertices[16], vertices[1], vertices[9], vertices[8]),
-                new Face(vertices[0], vertices[8], vertices[4], vertices[13], vertices[12]),
+                new Face(new List<Point3D> { vertices[0], vertices[12], vertices[2], vertices[18], vertices[16] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[16], vertices[1], vertices[9], vertices[8] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[0], vertices[8], vertices[4], vertices[13], vertices[12] }, PentagonUVs),
 
-                new Face(vertices[10], vertices[2], vertices[12], vertices[13], vertices[6]),
-                new Face(vertices[10], vertices[6], vertices[19], vertices[7], vertices[11]),
-                new Face(vertices[10], vertices[11], vertices[3], vertices[18], vertices[2]),
+                new Face(new List<Point3D> { vertices[10], vertices[2], vertices[12], vertices[13], vertices[6] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[10], vertices[6], vertices[19], vertices[7], vertices[11] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[10], vertices[11], vertices[3], vertices[18], vertices[2] }, PentagonUVs),
 
-                new Face(vertices[5], vertices[17], vertices[4], vertices[8], vertices[9]),
-                new Face(vertices[5], vertices[9], vertices[1], vertices[14], vertices[15]),
-                new Face(vertices[5], vertices[15], vertices[7], vertices[19], vertices[17]),
+                new Face(new List<Point3D> { vertices[5], vertices[17], vertices[4], vertices[8], vertices[9] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[9], vertices[1], vertices[14], vertices[15] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[5], vertices[15], vertices[7], vertices[19], vertices[17] }, PentagonUVs),
 
-                new Face(vertices[3], vertices[14], vertices[1], vertices[16], vertices[18]),
-                new Face(vertices[3], vertices[11], vertices[7], vertices[15], vertices[14]),
-                new Face(vertices[4], vertices[17], vertices[19], vertices[6], vertices[13])
+                new Face(new List<Point3D> { vertices[3], vertices[14], vertices[1], vertices[16], vertices[18] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[3], vertices[11], vertices[7], vertices[15], vertices[14] }, PentagonUVs),
+                new Face(new List<Point3D> { vertices[4], vertices[17], vertices[19], vertices[6], vertices[13] }, PentagonUVs)
             };
 
             Polyhedron polyhedron = new Polyhedron(faces);

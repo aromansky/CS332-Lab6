@@ -31,8 +31,10 @@
             components = new System.ComponentModel.Container();
             listBox = new ListBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            удалитьToolStripMenuItem = new ToolStripMenuItem();
             раскраситьToolStripMenuItem = new ToolStripMenuItem();
+            удалитьToolStripMenuItem = new ToolStripMenuItem();
+            добавитьТекстуруToolStripMenuItem = new ToolStripMenuItem();
+            openFileDialog1 = new OpenFileDialog();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,9 +55,16 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { раскраситьToolStripMenuItem, удалитьToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { раскраситьToolStripMenuItem, добавитьТекстуруToolStripMenuItem, удалитьToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 70);
+            contextMenuStrip1.Size = new Size(181, 92);
+            // 
+            // раскраситьToolStripMenuItem
+            // 
+            раскраситьToolStripMenuItem.Name = "раскраситьToolStripMenuItem";
+            раскраситьToolStripMenuItem.Size = new Size(180, 22);
+            раскраситьToolStripMenuItem.Text = "Раскрасить";
+            раскраситьToolStripMenuItem.Click += раскраситьToolStripMenuItem_Click;
             // 
             // удалитьToolStripMenuItem
             // 
@@ -64,12 +73,16 @@
             удалитьToolStripMenuItem.Text = "Удалить";
             удалитьToolStripMenuItem.Click += удалитьToolStripMenuItem_Click;
             // 
-            // раскраситьToolStripMenuItem
+            // добавитьТекстуруToolStripMenuItem
             // 
-            раскраситьToolStripMenuItem.Name = "раскраситьToolStripMenuItem";
-            раскраситьToolStripMenuItem.Size = new Size(180, 22);
-            раскраситьToolStripMenuItem.Text = "Раскрасить";
-            раскраситьToolStripMenuItem.Click += раскраситьToolStripMenuItem_Click;
+            добавитьТекстуруToolStripMenuItem.Name = "добавитьТекстуруToolStripMenuItem";
+            добавитьТекстуруToolStripMenuItem.Size = new Size(180, 22);
+            добавитьТекстуруToolStripMenuItem.Text = "Добавить текстуру";
+            добавитьТекстуруToolStripMenuItem.Click += добавитьТекстуруToolStripMenuItem_Click;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // SetPhigure
             // 
@@ -92,5 +105,7 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem удалитьToolStripMenuItem;
         private ToolStripMenuItem раскраситьToolStripMenuItem;
+        private ToolStripMenuItem добавитьТекстуруToolStripMenuItem;
+        private OpenFileDialog openFileDialog1;
     }
 }

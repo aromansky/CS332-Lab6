@@ -172,8 +172,16 @@
             foreach (Face f in p.Faces)
             {
                 Face transformedFace = new Face(f.Vertices.Select(x => Apply(m, x)).ToList());
+
+                for(int i = 0; i < f.Vertices.Count; i++)
+                {
+                    transformedFace.vertices[i].U = f.Vertices[i].U;
+                    transformedFace.vertices[i].V = f.Vertices[i].V;
+                }
+
                 transformedFace.SetColor(f.ObjectColor);
                 transformedFaces.Add(transformedFace);
+                transformedFace.SetTexture(f.Texture);
             }
             p.faces = transformedFaces;
         }
