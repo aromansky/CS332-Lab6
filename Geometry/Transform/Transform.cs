@@ -172,7 +172,7 @@
             foreach (Face f in p.Faces)
             {
                 Face transformedFace = new Face(f.Vertices.Select(x => Apply(m, x)).ToList());
-                transformedFace.ObjectColor = f.ObjectColor;
+                transformedFace.SetColor(f.ObjectColor);
                 transformedFaces.Add(transformedFace);
             }
             p.faces = transformedFaces;

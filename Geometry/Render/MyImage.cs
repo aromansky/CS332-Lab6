@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Geometry.Render
+namespace Geometry
 {
     public class MyImage
     {

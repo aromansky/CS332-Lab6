@@ -40,6 +40,11 @@ namespace Geometry
             return new Vector3(to.X - from.X, to.Y - from.Y, to.Z - from.Z);
         }
 
+        public static Point3D operator +(Point3D to, Point3D from)
+        {
+            return new Point3D(to.X + from.X, to.Y + from.Y, to.Z + from.Z);
+        }
+
         public Vector3 ToVector3() => new Vector3(X, Y, Z);
 
         public override string ToString()

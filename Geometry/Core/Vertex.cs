@@ -11,6 +11,8 @@ namespace Geometry
     {
         public Vector3 Normal { get; set; } = new Vector3(0, 0, 0);
         public Vector3 Color { get; set; } = new Vector3(System.Drawing.Color.White);
+        public Vector3 MaterialKs { get; private set; } = new Vector3(1f, 1f, 1f); // должен подходить для туншейдинга
+        public float Shininess { get; private set; } = 50f; // должен подходить для туншейдинга
 
         public Vertex(float x, float y, float z, Vector3 Color, Vector3 Normal) : base(x, y, z)
         {

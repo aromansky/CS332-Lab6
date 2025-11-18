@@ -596,7 +596,12 @@ namespace CS332_Lab9
 
         private void currentPhigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (form != null && !form.IsDisposed && form.Visible) return;
+            if (form != null && !form.IsDisposed && form.Visible)
+            {
+                form.Activate();
+                form.BringToFront();
+                return;
+            }    
 
             form = new SetPhigure(polyhedrons, this);
             form.Show();

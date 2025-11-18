@@ -374,7 +374,7 @@ namespace Geometry
         {
             for (int i = 0; i < Faces.Count; i++)
             {
-                faces[i].ObjectColor = DefaultFaceColors[i % DefaultFaceColors.Count];
+                faces[i].SetColor(DefaultFaceColors[i % DefaultFaceColors.Count]);
             }
         }
     }

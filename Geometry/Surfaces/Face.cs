@@ -11,9 +11,9 @@ namespace Geometry
         /// Набор несвязанных вершин грани.
         /// </summary>
         public List<Vertex> Vertices => vertices.Select(v => (Vertex)v.Clone()).ToList();
-        public Vector3 ObjectColor { get; set; } = new Vector3(Color.White);
+        public Vector3 ObjectColor { get; private set; } = new Vector3(Color.White);
         public Vector3 NormalVector { get; private set; }
-
+        
 
         public Face(List<Point3D> points, Vector3? normalVector = null, Color? col = null)
         {
@@ -29,6 +29,7 @@ namespace Geometry
         {
             InitFace(points, NormalVector, null);
         }
+
 
         private void InitFace(List<Point3D> points, Vector3? normalVector, Color? col)
         {
@@ -53,6 +54,9 @@ namespace Geometry
                 v.Normal = this.NormalVector;
 
             this.ObjectColor = new Vector3(col ?? Color.White);
+
+            foreach (Vertex v in vertices)
+                v.Color = this.ObjectColor;
         }
 
 
@@ -61,6 +65,14 @@ namespace Geometry
             this.NormalVector = other.NormalVector;
             this.ObjectColor = other.ObjectColor;
             this.vertices = other.Vertices.Select(e => (Vertex)e.Clone()).ToList();
+        }
+
+        public void SetColor(Vector3 col)
+        {
+            this.ObjectColor = col;
+
+            foreach (Vertex v in vertices)
+                v.Color = this.ObjectColor;
         }
 
         public Point3D GetCenter()
