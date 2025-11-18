@@ -12,7 +12,7 @@ namespace Geometry
         public Vector3 Color { get; set; } = new Vector3(0, 0, 0);
         public LightSource(float x, float y, float z, Color color) : base(x, y, z)
         {
-            this.Color = new Vector3(color.R, color.G, color.B);
+            this.Color = new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
         }
 
         public LightSource(LightSource other) : base(other)

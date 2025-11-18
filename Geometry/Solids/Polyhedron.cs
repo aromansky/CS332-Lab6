@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System.Drawing;
+using System.Text;
 
 namespace Geometry
 {
     public class Polyhedron : ICloneable
     {
         public String Name { get; set; } = "Polyhedron";
-        private List<Face> faces;
+        internal List<Face> faces;
         public List<Face> Faces { get { return faces.Select(f => (Face)f.Clone()).ToList(); } }
 
         public Polyhedron(List<Face> faces)
@@ -21,6 +22,7 @@ namespace Geometry
 
         public Polyhedron(Polyhedron other)
         {
+            this.Name = other.Name;
             this.faces = other.Faces.Select(f => (Face)f.Clone()).ToList();
         }
         
@@ -42,7 +44,7 @@ namespace Geometry
         {
             using (StreamWriter writer = new StreamWriter(path))
             {
-                List<Point3D> allVerticies = Faces.SelectMany(x => x.Vertices).Distinct().ToList();
+                List<Vertex> allVerticies = Faces.SelectMany(x => x.Vertices).Distinct().ToList();
 
                 Dictionary<Point3D, int> vertexIndices = new Dictionary<Point3D, int>();
                 StringBuilder builder = new StringBuilder();
@@ -50,7 +52,7 @@ namespace Geometry
 
                 writer.WriteLine("o " + Name);
 
-                foreach (Point3D vert in allVerticies) writer.WriteLine("v " + vert);
+                foreach (Vertex vert in allVerticies) writer.WriteLine("v " + vert);
 
                 foreach (Face face in Faces) writer.WriteLine("vn " + face.NormalVector);
 
@@ -349,6 +351,31 @@ namespace Geometry
             polyhedron.Name = "Додекаэдр";
 
             return polyhedron;
+        }
+
+
+        public static readonly List<Vector3> DefaultFaceColors = new List<Vector3>
+        {
+            new Vector3(Color.Red),
+            new Vector3(Color.Lime),
+            new Vector3(Color.Blue),
+            new Vector3(Color.Yellow),
+            new Vector3(Color.Cyan),
+            new Vector3(Color.Magenta),
+            new Vector3(Color.Orange),
+            new Vector3(Color.Purple),
+            new Vector3(Color.Green),
+            new Vector3(Color.DarkGray),
+            new Vector3(Color.White),
+            new Vector3(Color.Black)
+        };
+
+        public void ColorFacesAutomatically()
+        {
+            for (int i = 0; i < Faces.Count; i++)
+            {
+                faces[i].ObjectColor = DefaultFaceColors[i % DefaultFaceColors.Count];
+            }
         }
     }
 }

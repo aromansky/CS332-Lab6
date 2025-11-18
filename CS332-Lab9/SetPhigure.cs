@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CS332_Lab8
+namespace CS332_Lab9
 {
     public partial class SetPhigure : Form
     {
         private int rightClickedIndex = -1;
         private List<Polyhedron> lst;
         private Scene scene;
-        public SetPhigure(List<Polyhedron> lst, CS332_Lab8.Scene scene)
+        public SetPhigure(List<Polyhedron> lst, Scene scene)
         {
             InitializeComponent();
             this.lst = lst;
@@ -80,6 +80,11 @@ namespace CS332_Lab8
                     rightClickedIndex = -1;
                 }
             }
+        }
+
+        private void раскраситьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scene.polyhedrons[scene.polyInd].ColorFacesAutomatically();
         }
     }
 }

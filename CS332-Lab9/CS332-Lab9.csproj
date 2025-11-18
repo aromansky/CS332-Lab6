@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CS332-Lab8\CS332-Lab8.csproj" />
     <ProjectReference Include="..\Geometry\Geometry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SetPhigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

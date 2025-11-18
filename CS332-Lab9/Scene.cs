@@ -1,4 +1,5 @@
-Ôªøusing CS332_Lab7;
+using CS332_Lab7;
+using CS332_Lab8;
 using Geometry;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-namespace CS332_Lab8
+
+namespace CS332_Lab9
 {
     public partial class Scene : Form
     {
@@ -23,6 +26,7 @@ namespace CS332_Lab8
         public List<Polyhedron> polyhedrons = new List<Polyhedron>();
         internal int polyInd = -1;
         private Renderer renderer;
+        private LightSource lightSource;
 
         private Point3D linePoint = new Point3D(0, 0, 0);
         private Vector3 lineVector;
@@ -61,7 +65,8 @@ namespace CS332_Lab8
                 panel1.Width, panel1.Height
                 );
 
-            renderer = new Renderer(cam, panel1.Width, panel1.Height);
+            lightSource = new LightSource(5f, 5f, 5f, Color.Blue);
+            renderer = new Renderer(cam, panel1.Width, panel1.Height, lightSource);
 
             typeof(Panel).InvokeMember("DoubleBuffered",
                 System.Reflection.BindingFlags.SetProperty |
@@ -134,14 +139,14 @@ namespace CS332_Lab8
 
             if (useZBufferRendering)
             {
-                // ==== –†–ï–ù–î–ï–† –ß–ï–†–ï–ó Z-–ë–£–§–ï–† ====
+                // ==== –≈Õƒ≈– ◊≈–≈« Z-¡”‘≈– ====
                 renderer.Clear(Color.Gray);
 
-                // —Ä–∏—Å—É–µ–º –≤—Å–µ –ø–æ–ª–∏—ç–¥—Ä—ã
+                // ËÒÛÂÏ ‚ÒÂ ÔÓÎË˝‰˚
                 foreach (var p in polyhedrons)
-                    renderer.Render(p, Color.LightSkyBlue);
+                    renderer.Render(p);
 
-                // —Ä–∏—Å—É–µ–º –æ—Å–∏ –∫–æ–æ—Ä–¥–∏–Ω–∞—Ç –ø–æ–≤–µ—Ä—Ö
+                // ËÒÛÂÏ ÓÒË ÍÓÓ‰ËÌ‡Ú ÔÓ‚Âı
                 float axisLength = 5.0f;
                 var origin = new Point3D(0, 0, 0);
                 var xAxisEnd = new Point3D(axisLength, 0, 0);
@@ -157,7 +162,23 @@ namespace CS332_Lab8
             }
             else
             {
-                // === –†–ò–°–û–í–ê–ù–ò–ï –û–°–ï–ô –ö–û–û–†–î–ò–ù–ê–¢ ===
+                // === –»—Œ¬¿Õ»≈ »—“Œ◊Õ» ¿ —¬≈“¿ ===
+                //Polyhedron lightPointPoly = new Polyhedron(new List<Face> { new Face(lightSource) });
+                PointF? lightPointNullable = cam.ProjectPoint2D(lightSource);
+                if (lightPointNullable.HasValue)
+                {
+                    PointF lightPoint = lightPointNullable.Value;
+                    Color lightColor = Color.FromArgb((int)(lightSource.Color.X * 255), (int)(lightSource.Color.Y * 255), (int)(lightSource.Color.Z * 255));
+
+                    int lightPointSize = 12;
+
+                    using (var brush = new SolidBrush(lightColor))
+                    {
+                        g.FillEllipse(brush, lightPoint.X - lightPointSize / 2, lightPoint.Y - lightPointSize / 2, lightPointSize, lightPointSize);
+                    }
+                }
+
+                // === –»—Œ¬¿Õ»≈ Œ—≈…  ŒŒ–ƒ»Õ¿“ ===
                 float axisLength = 5.0f;
                 var origin = new Point3D(0, 0, 0);
                 var xAxisEnd = new Point3D(axisLength, 0, 0);
@@ -166,9 +187,9 @@ namespace CS332_Lab8
 
                 var axes = new PointF[][]
                 {
-                cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }))[0],
-                cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }))[0],
-                cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, zAxisEnd) }))[0]
+                    cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, xAxisEnd) }))[0],
+                    cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, yAxisEnd) }))[0],
+                    cam.Project(new Polyhedron(new List<Face> { CreateAxis(origin, zAxisEnd) }))[0]
                 };
 
                 using (var penX = new Pen(Color.Red, 2f))
@@ -183,7 +204,7 @@ namespace CS332_Lab8
                         g.DrawLine(penZ, axes[2][0], axes[2][1]);
                 }
 
-                // === –û–°–¨ –í–†–ê–©–ï–ù–ò–Ø (–µ—Å–ª–∏ –≤—ã–±—Ä–∞–Ω–∞ –ø–æ–ª—å–∑–æ–≤–∞—Ç–µ–ª—å—Å–∫–∞—è) ===
+                // === Œ—‹ ¬–¿Ÿ≈Õ»ﬂ (ÂÒÎË ‚˚·‡Ì‡ ÔÓÎ¸ÁÓ‚‡ÚÂÎ¸ÒÍ‡ˇ) ===
                 if (rotatingCustomAxisMode && !lineVector.IsZero())
                 {
                     Vector3 dir = lineVector.Normalized();
@@ -323,7 +344,7 @@ namespace CS332_Lab8
             if (!(scaleFactor > 0.1f && scaleFactor < 10.0f)) return;
 
             if (scalingMode)
-                    Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), polyhedrons[polyInd]);
+                Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), polyhedrons[polyInd]);
             else if (scalingXMode)
                 Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, 1, 1), polyhedrons[polyInd]);
             else if (scalingYMode)
@@ -531,6 +552,7 @@ namespace CS332_Lab8
             {
                 polyhedrons.Add(new Polyhedron(form.poly));
                 polyInd++;
+                polyhedrons[polyInd].ColorFacesAutomatically();
                 form.Close();
                 panel1.Invalidate();
             }
@@ -544,6 +566,7 @@ namespace CS332_Lab8
             {
                 polyhedrons.Add(new Polyhedron(form.poly));
                 polyInd++;
+                polyhedrons[polyInd].ColorFacesAutomatically();
                 form.Close();
                 panel1.Invalidate();
             }
@@ -556,7 +579,7 @@ namespace CS332_Lab8
             cam.ScreenWidth = panel1.Width;
             cam.ScreenHeight = panel1.Height;
 
-            renderer = new Renderer(cam, panel1.Width, panel1.Height);
+            renderer = new Renderer(cam, panel1.Width, panel1.Height, lightSource);
 
             panel1.Invalidate();
         }

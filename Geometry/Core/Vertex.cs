@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Geometry
     public class Vertex: Point3D, ICloneable
     {
         public Vector3 Normal { get; set; } = new Vector3(0, 0, 0);
-        public Vector3 Color { get; set; } = new Vector3(255, 255, 255);
+        public Vector3 Color { get; set; } = new Vector3(System.Drawing.Color.White);
 
         public Vertex(float x, float y, float z, Vector3 Color, Vector3 Normal) : base(x, y, z)
         {

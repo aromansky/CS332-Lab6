@@ -252,42 +252,42 @@ namespace CS332_Lab7
             if (!(scaleFactor > 0.1f && scaleFactor < 10.0f)) return;
 
             if (scalingMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, scaleFactor, scaleFactor), poly);
             else if (scalingXMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, 1, 1), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(scaleFactor, 1, 1), poly);
             else if (scalingYMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, scaleFactor, 1), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(1, scaleFactor, 1), poly);
             else if (scalingZMode)
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, 1, scaleFactor), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(1, 1, scaleFactor), poly);
             else if (rotatingXMode)
-                poly = Transform.Apply(
+                Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
                         poly.GetCenter(),
                         new Vector3(1, 0, 0),
                         deltaX * 0.01f),
                     poly);
             else if (rotatingYMode)
-                poly = Transform.Apply(
+                Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
                         poly.GetCenter(),
                         new Vector3(0, 1, 0),
                         deltaX * 0.01f),
                     poly);
             else if (rotatingZMode)
-                poly = Transform.Apply(
+                Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
                         poly.GetCenter(),
                         new Vector3(0, 0, 1),
                         deltaX * 0.01f),
                     poly);
             else if (translatingXMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(deltaX * 0.01f, 0, 0), poly);
+                Transform.Apply(Transform.CreateTranslationMatrix(deltaX * 0.01f, 0, 0), poly);
             else if (translatingYMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(0, deltaX * 0.01f, 0), poly);
+                Transform.Apply(Transform.CreateTranslationMatrix(0, deltaX * 0.01f, 0), poly);
             else if (translatingZMode)
-                poly = Transform.Apply(Transform.CreateTranslationMatrix(0, 0, deltaX * 0.01f), poly);
+                Transform.Apply(Transform.CreateTranslationMatrix(0, 0, deltaX * 0.01f), poly);
             else if (rotatingCustomAxisMode)
-                poly = Transform.Apply(
+                Transform.Apply(
                     Transform.CreateRotationAroundLineMatrix(
                         linePoint,
                         lineVector,
@@ -399,7 +399,7 @@ namespace CS332_Lab7
         {
             if (poly != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, 1, -1), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(1, 1, -1), poly);
                 panel1.Invalidate();
             }
         }
@@ -408,7 +408,7 @@ namespace CS332_Lab7
         {
             if (poly != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(1, -1, 1), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(1, -1, 1), poly);
                 panel1.Invalidate();
             }
         }
@@ -417,7 +417,7 @@ namespace CS332_Lab7
         {
             if (poly != null)
             {
-                poly = Transform.Apply(Transform.CreateScaleMatrix(-1, 1, 1), poly);
+                Transform.Apply(Transform.CreateScaleMatrix(-1, 1, 1), poly);
                 panel1.Invalidate();
             }
         }

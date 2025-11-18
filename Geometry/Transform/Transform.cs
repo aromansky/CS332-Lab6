@@ -166,17 +166,16 @@
         /// Применяет 4x4 матрицу к многограннику.
         /// Возвращает новый многогранник с результатом преобразования.
         /// </summary>
-        public static Polyhedron Apply(Matrix m, Polyhedron p)
+        public static void Apply(Matrix m, Polyhedron p)
         {
             List<Face> transformedFaces = new List<Face>();
             foreach (Face f in p.Faces)
             {
                 Face transformedFace = new Face(f.Vertices.Select(x => Apply(m, x)).ToList());
+                transformedFace.ObjectColor = f.ObjectColor;
                 transformedFaces.Add(transformedFace);
             }
-            Polyhedron poly = new Polyhedron(transformedFaces);
-            poly.Name = p.Name;
-            return poly;
+            p.faces = transformedFaces;
         }
     }
 }

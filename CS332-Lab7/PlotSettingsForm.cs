@@ -84,6 +84,7 @@ namespace CS332_Lab7
                 }
             }
             this.poly = new Polyhedron(faces);
+            this.poly.Name = "Фигура вращения";
 
             this.DialogResult = DialogResult.OK;
         }

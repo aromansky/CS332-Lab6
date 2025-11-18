@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Drawing;
+using System.Globalization;
 
 namespace Geometry
 {
@@ -16,6 +17,17 @@ namespace Geometry
             this.X = x;
             this.Y = y;
             this.Z = z;
+        }
+
+        /// <summary>
+        /// Создаёт ненормированный вектор из цвета
+        /// </summary>
+        /// <param name="col">Цвет</param>
+        public Vector3(Color col)
+        {
+            this.X = col.R / 255.0f;
+            this.Y = col.G / 255.0f;
+            this.Z = col.B / 255.0f;
         }
 
         /// <summary>

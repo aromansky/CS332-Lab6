@@ -61,7 +61,7 @@ namespace CS332_Lab7
 
             Point3D center = poly.GetCenter();
             Matrix translateMatrix = Transform.CreateTranslationMatrix(-center.X, -center.Y, -center.Z);
-            this.poly = Transform.Apply(translateMatrix, poly);
+            Transform.Apply(translateMatrix, poly);
 
             Matrix rotationMatrixFinal;
             switch (rotationAxis)
@@ -76,7 +76,7 @@ namespace CS332_Lab7
                     rotationMatrixFinal = Transform.CreateRotationAroundZMatrix((float)Math.PI / 2);
                     break;
             }
-            this.poly = Transform.Apply(rotationMatrixFinal, this.poly);
+            Transform.Apply(rotationMatrixFinal, this.poly);
             this.poly.Name = "Фигура вращения";
 
             this.DialogResult = DialogResult.OK;

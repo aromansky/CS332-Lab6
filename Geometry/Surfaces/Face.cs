@@ -1,4 +1,6 @@
-﻿namespace Geometry
+﻿using System.Drawing;
+
+namespace Geometry
 {
     public class Face: ICloneable
     {
@@ -9,42 +11,36 @@
         /// Набор несвязанных вершин грани.
         /// </summary>
         public List<Vertex> Vertices => vertices.Select(v => (Vertex)v.Clone()).ToList();
+        public Vector3 ObjectColor { get; set; } = new Vector3(Color.White);
         public Vector3 NormalVector { get; private set; }
 
-       
-        public Face(List<Point3D> points)
+
+        public Face(List<Point3D> points, Vector3? normalVector = null, Color? col = null)
         {
-            this.vertices = new List<Vertex>();
-
-            points = points.Distinct().ToList();
-
-            for (int i = 0; i < points.Count; i++) 
-                this.vertices.Add(new Vertex(points[i]));
-
-            if (this.vertices.Count >= 3)
-            {
-                Vector3 v1 = new Vector3(vertices[0], vertices[1]);
-                Vector3 v2 = new Vector3(vertices[0], vertices[2]);
-                this.NormalVector = Vector3.Cross(v1, v2).Normalized();
-            }
-            else
-                this.NormalVector = new Vector3(0, 0, 0);
-
-            foreach (Vertex v in vertices)
-                v.Normal = this.NormalVector;
+            InitFace(points, normalVector, col);
         }
 
         public Face(params Point3D[] points)
         {
+            InitFace(points.ToList(), null, null);
+        }
+
+        public Face(List<Point3D> points, Vector3 NormalVector)
+        {
+            InitFace(points, NormalVector, null);
+        }
+
+        private void InitFace(List<Point3D> points, Vector3? normalVector, Color? col)
+        {
             this.vertices = new List<Vertex>();
+            points = points.Distinct().ToList();
 
-            points = points.Distinct().ToArray();
+            foreach (var p in points)
+                this.vertices.Add(new Vertex(p));
 
-            for (int i = 0; i < points.Length; i++)
-                this.vertices.Add(new Vertex(points[i]));
-
-
-            if (this.vertices.Count >= 3)
+            if (normalVector.HasValue)
+                this.NormalVector = normalVector.Value;
+            else if (this.vertices.Count >= 3)
             {
                 Vector3 v1 = new Vector3(vertices[0], vertices[1]);
                 Vector3 v2 = new Vector3(vertices[0], vertices[2]);
@@ -55,26 +51,15 @@
 
             foreach (Vertex v in vertices)
                 v.Normal = this.NormalVector;
+
+            this.ObjectColor = new Vector3(col ?? Color.White);
         }
 
-        public Face(List<Point3D> points, Vector3 NormalVector)
-        {
-            this.vertices = new List<Vertex>();
-
-            points = points.Distinct().ToList();
-
-            for (int i = 0; i < points.Count; i++) 
-                this.vertices.Add(new Vertex(points[i]));
-
-            this.NormalVector = NormalVector;
-
-            foreach (Vertex v in vertices)
-                v.Normal = this.NormalVector;
-        }
 
         public Face(Face other)
         {
             this.NormalVector = other.NormalVector;
+            this.ObjectColor = other.ObjectColor;
             this.vertices = other.Vertices.Select(e => (Vertex)e.Clone()).ToList();
         }
 
