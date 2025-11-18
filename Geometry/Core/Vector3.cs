@@ -33,11 +33,11 @@ namespace Geometry
         /// <summary>
         /// Создаёт ненормированный вектор
         /// </summary>
-        public Vector3(Point3D p1, Point3D p2)
+        public Vector3(Point3D from, Point3D to)
         {
-            this.X = p2.X - p1.X;
-            this.Y = p2.Y - p1.Y;
-            this.Z = p2.Z - p1.Z;
+            this.X = to.X - from.X;
+            this.Y = to.Y - from.Y;
+            this.Z = to.Z - from.Z;
         }
 
         /// <summary>
@@ -56,6 +56,11 @@ namespace Geometry
             if (length == 0)
                 throw new InvalidOperationException("Невозможно нормализовать нулевой вектор");
             return new Vector3(X / length, Y / length, Z / length);
+        }
+
+        public float Length()
+        {
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z);
         }
 
         public bool IsZero()
@@ -83,9 +88,23 @@ namespace Geometry
             return new Vector3(-v.X, -v.Y, -v.Z);
         }
 
+        public static Vector3 operator -(Vector3 to, Vector3 from)
+        {
+            return new Vector3(to.X - from.X, to.Y - from.Y, to.Z - from.Z);
+        }
+
         public static Vector3 operator *(Vector3 v, float n)
         {
             return new Vector3(v.X * n, v.Y * n, v.Z * n);
+        }
+
+        public static Vector3 operator +(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(
+                v1.X + v2.X,
+                v1.Y + v2.Y,
+                v1.Z + v2.Z
+            );
         }
 
         public override string ToString()

@@ -7,7 +7,8 @@ namespace Geometry
     public enum RenderMode
     {
         None,
-        Gouraud
+        Gouraud,
+        Phong
     }
     public class Renderer
     {
@@ -83,7 +84,9 @@ namespace Geometry
                             return v;
                         }).ToList();
                         DrawFaceGouraudZ(shadedVertices);
-
+                        break;
+                    case RenderMode.Phong:
+                        // Phong shading implementation would go here
                         break;
                     case RenderMode.None:
                         DrawFaceZ(face, face.ObjectColor);
@@ -91,6 +94,24 @@ namespace Geometry
                 }
             }
             myImage.Unlock();
+        }
+
+        public void DrawFacePhongZ(List<Vertex> faceVertices)
+        {
+            if (faceVertices.Count < 3) return;
+
+            Vertex v0 = faceVertices[0];
+            for (int i = 1; i < faceVertices.Count - 1; i++)
+            {
+                Vertex v1 = faceVertices[i];
+                Vertex v2 = faceVertices[i + 1];
+                DrawTrianglePhongZ(v0, v1, v2);
+            }
+        }
+
+        private void DrawTrianglePhongZ(Vertex v0, Vertex v1, Vertex v2)
+        {
+            // TODO
         }
 
 
@@ -301,7 +322,7 @@ namespace Geometry
             }
         }
 
-
+            
         private static float EdgeFunction(PointF a, PointF b, PointF c)
         {
             return (c.X - a.X) * (b.Y - a.Y) - (c.Y - a.Y) * (b.X - a.X);
