@@ -41,6 +41,11 @@ namespace Geometry
             this.Light = lightSource;
         }
 
+        public void SetMode(RenderMode mode)
+        {
+            this.renderMode = mode;
+        }
+
         public void Clear(Color background)
         {
             myImage.Lock();

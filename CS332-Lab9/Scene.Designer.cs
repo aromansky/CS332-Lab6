@@ -96,6 +96,10 @@ namespace CS332_Lab9
             setCamersRadioButton = new RadioButton();
             setPolyhedronRadioButton = new RadioButton();
             zBufferCheckBox = new CheckBox();
+            типОсвещенияToolStripMenuItem = new ToolStripMenuItem();
+            нетToolStripMenuItem = new ToolStripMenuItem();
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem = new ToolStripMenuItem();
+            шейдингФонгаДляМодToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)lineStartXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartYNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lineStartZNumericUpDown).BeginInit();
@@ -366,7 +370,7 @@ namespace CS332_Lab9
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, фигурыToolStripMenuItem1, проекцияToolStripMenuItem, currentPhigureToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem, фигурыToolStripMenuItem1, проекцияToolStripMenuItem, типОсвещенияToolStripMenuItem, currentPhigureToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(4, 2, 0, 2);
@@ -758,6 +762,34 @@ namespace CS332_Lab9
             zBufferCheckBox.UseVisualStyleBackColor = true;
             zBufferCheckBox.CheckedChanged += zBufferCheckBox_CheckedChanged;
             // 
+            // типОсвещенияToolStripMenuItem
+            // 
+            типОсвещенияToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { нетToolStripMenuItem, шейдингГуроДляМоделиЛамбертаToolStripMenuItem, шейдингФонгаДляМодToolStripMenuItem });
+            типОсвещенияToolStripMenuItem.Name = "типОсвещенияToolStripMenuItem";
+            типОсвещенияToolStripMenuItem.Size = new Size(105, 20);
+            типОсвещенияToolStripMenuItem.Text = "Тип освещения";
+            // 
+            // нетToolStripMenuItem
+            // 
+            нетToolStripMenuItem.Name = "нетToolStripMenuItem";
+            нетToolStripMenuItem.Size = new Size(299, 22);
+            нетToolStripMenuItem.Text = "Нет";
+            нетToolStripMenuItem.Click += нетToolStripMenuItem_Click;
+            // 
+            // шейдингГуроДляМоделиЛамбертаToolStripMenuItem
+            // 
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Name = "шейдингГуроДляМоделиЛамбертаToolStripMenuItem";
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Size = new Size(299, 22);
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Text = "Шейдинг Гуро для модели Ламберта";
+            шейдингГуроДляМоделиЛамбертаToolStripMenuItem.Click += шейдингГуроДляМоделиЛамбертаToolStripMenuItem_Click;
+            // 
+            // шейдингФонгаДляМодToolStripMenuItem
+            // 
+            шейдингФонгаДляМодToolStripMenuItem.Name = "шейдингФонгаДляМодToolStripMenuItem";
+            шейдингФонгаДляМодToolStripMenuItem.Size = new Size(299, 22);
+            шейдингФонгаДляМодToolStripMenuItem.Text = "Шейдинг Фонга для модели Туншейдинг";
+            шейдингФонгаДляМодToolStripMenuItem.Click += шейдингФонгаДляМодToolStripMenuItem_Click;
+            // 
             // Scene
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -892,6 +924,10 @@ namespace CS332_Lab9
         private RadioButton setPolyhedronRadioButton;
         private ToolStripMenuItem currentPhigureToolStripMenuItem;
         private CheckBox zBufferCheckBox;
+        private ToolStripMenuItem типОсвещенияToolStripMenuItem;
+        private ToolStripMenuItem нетToolStripMenuItem;
+        private ToolStripMenuItem шейдингГуроДляМоделиЛамбертаToolStripMenuItem;
+        private ToolStripMenuItem шейдингФонгаДляМодToolStripMenuItem;
     }
 }
 

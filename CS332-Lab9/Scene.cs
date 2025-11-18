@@ -601,7 +601,7 @@ namespace CS332_Lab9
                 form.Activate();
                 form.BringToFront();
                 return;
-            }    
+            }
 
             form = new SetPhigure(polyhedrons, this);
             form.Show();
@@ -610,6 +610,24 @@ namespace CS332_Lab9
         private void zBufferCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             useZBufferRendering = zBufferCheckBox.Checked;
+            panel1.Invalidate();
+        }
+
+        private void íåòToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderer.SetMode(RenderMode.None);
+            panel1.Invalidate();
+        }
+
+        private void øåéäèíãÃóğîÄëÿÌîäåëèËàìáåğòàToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderer.SetMode(RenderMode.Gouraud);
+            panel1.Invalidate();
+        }
+
+        private void øåéäèíãÔîíãàÄëÿÌîäToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderer.SetMode(RenderMode.Phong);
             panel1.Invalidate();
         }
     }

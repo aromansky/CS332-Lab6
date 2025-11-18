@@ -34,13 +34,10 @@ namespace Geometry
         {
             // Вектор от точки к источнику света
             Vector3 L = light - point;
-
-            // Расстояние до источника света
             float distance = L.Length();
-
             L = L.Normalized();
 
-            // Нормаль в точке
+            // Нормаль в точке (уже интерполирована и нормализована в DrawTrianglePhongZ)
             Vector3 N = point.Normal.Normalized();
 
             // Вектор от точки к наблюдателю (камере)
@@ -50,6 +47,48 @@ namespace Geometry
             // R = 2 * (N ⋅ L) * N - L
             Vector3 R = (N * 2 * Vector3.Dot(N, L) - L).Normalized();
 
+            // Косинус угла между нормалью и светом (диффузный фактор)
+            float cosNL_raw = Math.Max(Vector3.Dot(N, L), 0.0f);
+
+            // Косинус угла между отражением и наблюдателем (зеркальный фактор)
+            float cosRV_raw = Math.Max(Vector3.Dot(R, V), 0.0f);
+
+            // Сырой зеркальный фактор Фонга
+            float specularFactor_raw = (float)Math.Pow(cosRV_raw, shininess);
+
+            float cosNL_quantized;
+            if (cosNL_raw < 0.4f)
+            {
+                cosNL_quantized = 0.3f;
+            }
+            else if (cosNL_raw < 0.7f)
+            {
+                cosNL_quantized = 0.6f;
+            }
+            else
+            {
+                cosNL_quantized = 1.0f;
+            }
+            float cosNL = cosNL_quantized;
+
+
+            // Квантование Зеркального света 
+            float specularFactor;
+            if (specularFactor_raw > 0.9f)
+            {
+                specularFactor = 1.0f;
+            }
+            else
+            {
+                specularFactor = 0.0f;
+            }
+
+
+            // Затухание
+            float denominator = light.K0 + light.K1 * distance + light.K2 * distance * distance;
+            float attenuation = 1.0f / denominator;
+            if (denominator < 1.0f) attenuation = 1.0f;
+
             // Ambient
             Vector3 ambientColor = new Vector3
             {
@@ -58,36 +97,18 @@ namespace Geometry
                 Z = point.Color.Z * light.AmbientColor.Z
             };
 
-            // Diffuse
-            float cosNL = Math.Max(Vector3.Dot(N, L), 0.0f);
-
-            // Specular
-            float cosRV = Math.Max(Vector3.Dot(R, V), 0.0f);
-            float specularFactor = (float)Math.Pow(cosRV, shininess);
-
-            // Затухание
-            float denominator = light.K0 + light.K1 * distance + light.K2 * distance * distance;
-            float attenuation = 1.0f / denominator;
-            if (denominator < 1.0f) attenuation = 1.0f;
-
-            // Итоговый цвет
-
             Vector3 directionalColor = new Vector3();
 
-            // Диффузная часть: k_d * I_d * cos(theta)
             directionalColor.X = point.Color.X * light.Color.X * cosNL;
             directionalColor.Y = point.Color.Y * light.Color.Y * cosNL;
             directionalColor.Z = point.Color.Z * light.Color.Z * cosNL;
 
-            // Зеркальная часть: k_s * I_s * cos(alpha)^p
             directionalColor.X += materialKs.X * light.Color.X * specularFactor;
             directionalColor.Y += materialKs.Y * light.Color.Y * specularFactor;
             directionalColor.Z += materialKs.Z * light.Color.Z * specularFactor;
 
-            // Применяем затухание к направленным компонентам
             directionalColor *= attenuation;
 
-            // Складываем с амбиентным светом
             return ambientColor + directionalColor;
         }
     }
