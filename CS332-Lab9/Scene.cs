@@ -33,6 +33,7 @@ namespace CS332_Lab9
 
         bool setPoly = false;
         bool setCam = false;
+        bool setLight = false;
 
         private bool scalingMode = false;
         private bool scalingXMode = false;
@@ -65,7 +66,7 @@ namespace CS332_Lab9
                 panel1.Width, panel1.Height
                 );
 
-            lightSource = new LightSource(5f, 5f, 5f, Color.White);
+            lightSource = new LightSource(0f, 5f, 0f, Color.Red);
             renderer = new Renderer(cam, panel1.Width, panel1.Height, lightSource);
 
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -110,6 +111,9 @@ namespace CS332_Lab9
                 {
                     CameraProcessing();
                 }
+
+                if (setLight)
+                    LightProcessing();
 
 
                 HandleMouseDrag(deltaX);
@@ -336,6 +340,25 @@ namespace CS332_Lab9
                 cam.SetPosition(Transform.Apply(Transform.CreateRotationAroundYMatrix(deltaX * 0.01f), cam.Position));
             else if (rotatingZMode)
                 cam.SetPosition(Transform.Apply(Transform.CreateRotationAroundZMatrix(deltaX * 0.01f), cam.Position));
+        }
+
+        private void LightProcessing()
+        {
+            if (rotatingXMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateRotationAroundXMatrix(deltaX * 0.01f), lightSource), lightSource.Color);
+            else if (rotatingYMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateRotationAroundYMatrix(deltaX * 0.01f), lightSource), lightSource.Color);
+            else if (rotatingZMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateRotationAroundZMatrix(deltaX * 0.01f), lightSource), lightSource.Color);
+            else if (translatingXMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateTranslationMatrix(deltaX * 0.01f, 0, 0), lightSource), lightSource.Color);
+            else if (translatingYMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateTranslationMatrix(0, deltaX * 0.01f, 0), lightSource), lightSource.Color);
+            else if (translatingZMode)
+                lightSource = new LightSource(Transform.Apply(Transform.CreateTranslationMatrix(0, 0, deltaX * 0.01f), lightSource), lightSource.Color);
+
+            renderer.Light = lightSource;
+            panel1.Invalidate();
         }
 
         private void PolyhedronProcessing()
@@ -587,11 +610,15 @@ namespace CS332_Lab9
         private void setPolyhedronRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             setPoly = setPolyhedronRadioButton.Checked;
+            setCam = false;
+            setLight = false;
         }
 
         private void setCamersRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             setCam = setCamersRadioButton.Checked;
+            setLight = false;
+            setPoly = false;
         }
 
         private void currentPhigureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -641,14 +668,21 @@ namespace CS332_Lab9
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     MyImage texture = new MyImage(openFileDialog.FileName);
-                    
+
                     polyhedrons[polyInd].SetTextureToAllFaces(texture);
-                    
+
                     renderer.SetMode(RenderMode.Texture);
 
                     panel1.Invalidate();
                 }
             }
+        }
+
+        private void lightSourceRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            setLight = lightSourceRadioButton.Checked;
+            setCam = false;
+            setPoly = false;
         }
     }
 }

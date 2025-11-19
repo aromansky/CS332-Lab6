@@ -221,8 +221,6 @@ namespace Geometry
                             float u_final = u_div_z_interpolated / z_inv_interpolated;
                             float v_final = v_div_z_interpolated / z_inv_interpolated;
 
-                            // Билинейная фильтрация (улучшенная выборка цвета)
-
                             // Преобразование UV (0..1) в float-координаты текселя (0..W, 0..H)
                             float tex_coord_x = u_final * texture.Width;
                             float tex_coord_y = v_final * texture.Height;
@@ -354,8 +352,7 @@ namespace Geometry
                             Point3D interpolatedPosition = pos0 * w0 + pos1 * w1 + pos2 * w2;
 
                             // 3. Интерполяция Нормали 
-                            Vector3 interpolatedNormal =
-                                v0.Normal * w0 + v1.Normal * w1 + v2.Normal * w2;
+                            Vector3 interpolatedNormal = v0.Normal * w0 + v1.Normal * w1 + v2.Normal * w2;
 
                             // 4. Нормализация интерполированной нормали
                             Vector3 N_pixel = interpolatedNormal.Normalized();

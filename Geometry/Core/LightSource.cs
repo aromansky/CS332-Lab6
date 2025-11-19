@@ -18,7 +18,14 @@ namespace Geometry
         {
             this.Color = new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
         }
-
+        public LightSource(Point3D point, Vector3 color) : base(point)
+        {
+            this.Color = color;
+        }
+        public LightSource(Point3D point, Color color) : base(point)
+        {
+            this.Color = new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
+        }
         public LightSource(LightSource other) : base(other)
         {
             this.Color = other.Color;
